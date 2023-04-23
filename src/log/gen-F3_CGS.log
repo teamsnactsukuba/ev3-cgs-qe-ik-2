@@ -1,0 +1,37 @@
+terui@flopsy6 src % system_profiler SPHardwareDataType SPSoftwareDataType  
+Hardware:
+
+    Hardware Overview:
+
+      Model Name: MacBook Pro
+      Model Identifier: MacBookPro18,4
+      Chip: Apple M1 Max
+      Total Number of Cores: 10 (8 performance and 2 efficiency)
+      Memory: 32 GB
+      System Firmware Version: 8422.100.650
+      OS Loader Version: 7459.141.1
+
+Software:
+
+    System Software Overview:
+
+      System Version: macOS 12.6.4 (21G526)
+      Kernel Version: Darwin 21.6.0
+      Boot Volume: Macintosh HD
+      Boot Mode: Normal
+
+terui@flopsy6 src % fep asir
+This is Risa/Asir, full GMP Version 20230315 (Kobe Distribution).
+Copyright (C) 1994-2000, all rights reserved, FUJITSU LABORATORIES LIMITED.
+Copyright 2000-2021, Risa/Asir committers, http://www.openxm.org/.
+GC 7.6.12 copyright 1988-2018, H-J. Boehm, A. J. Demers, Xerox, SGI, HP, I. Maidanski.
+Debug windows of ox servers will not be opened. Set Xm_noX=0 to open it.
+OpenXM/Risa/Asir-Contrib $Revision$ (20230107), Copyright 2000-2023, OpenXM.org committers
+helph(); [html help], ox_help(0); ox_help("keyword"); ox_grep("keyword");
+     for help messages (unix version only).
+http://www.math.kobe-u.ac.jp/OpenXM/Current/doc/index-doc.html
+[2077] load("gen-F3_CGS.rr")$
+redeclaration of find_base_data
+0sec(9.537e-07sec)
+499.6sec(501.3sec)
+[2313] 
