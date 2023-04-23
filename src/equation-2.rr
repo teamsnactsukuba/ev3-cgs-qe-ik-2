@@ -1,0 +1,25 @@
+// equation-2.rr 
+// Akira Terui
+// from equation-1.rr
+// adding the definition of the orbit from (x0,y0,z0) to (xf,yf,zf) and a parameter s
+
+F21 = 120*c1*c4*s7 - 16*c1*c4 + 120*c1*s4*c7 + 136*c1*s4 - 44*(2^(1/2))*c1 + x0*(1-s)+xf*s$
+F22 = 120*s1*c4*s7 - 16*s1*c4 + 120*s1*s4*c7 + 136*s1*s4 - 44*(2^(1/2))*s1 + y0*(1-s)+yf*s$
+F23 = -120*c4*c7 - 136*c4 + 120*s4*s7 - 16*s4 - 104 - 44*(2^(1/2)) + z0*(1-s)+zf*s$
+F24 = s1^2 + c1^2 - 1$
+F25 = s4^2 + c4^2 - 1$
+F26 = s7^2 + c7^2 - 1$
+
+// Generating set of the ideal
+F2 = [F21, F22, F23, F24, F25, F26]$
+
+// Variables
+Var = [c1, s1, c4, s4, c7, s7]$
+
+// Parameters
+Param = [x0, y0, z0, xf, yf, zf, s]$
+
+// Lexicographic order is used for computing Groebner basis
+Ord = 2$ 
+
+end$

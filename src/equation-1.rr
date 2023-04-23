@@ -1,0 +1,23 @@
+// equation-1.rr 
+// Akira Terui
+// The system of polynomial equations representing the inverse kinematic problem
+// with (x,y,z), the end point, as parameters  
+
+F11 = 120*c1*c4*s7 - 16*c1*c4 + 120*c1*s4*c7 + 136*c1*s4 - 44*(2^(1/2))*c1 + x$
+F12 = 120*s1*c4*s7 - 16*s1*c4 + 120*s1*s4*c7 + 136*s1*s4 - 44*(2^(1/2))*s1 + y$
+F13 = -120*c4*c7 - 136*c4 + 120*s4*s7 - 16*s4 -104 - 44*(2^(1/2)) + z$
+F14 = s1^2 + c1^2 - 1$
+F15 = s4^2 + c4^2 - 1$
+F16 = s7^2 + c7^2 - 1$
+
+// Generating set of the ideal
+F1 = [F11, F12, F13, F14, F15, F16]$
+
+// Variables
+Var = [c1, s1, c4, s4, c7, s7]$
+
+// Parameters
+Param = [x, y, z]$
+
+// Lexicographic order is used for computing Groebner basis
+Ord = 2$
