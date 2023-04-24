@@ -1,0 +1,228 @@
+// A program for solving inverse kinematic problem pointwisely
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
+
+load("Segment.rr")$
+load("MainQE.rr")$
+
+def ikp_point(CGS, Para, Vari, Jun, Coord){
+  RealCGS = generate_realcgs(CGS, Para, Jun); /* 実数上で空でない分割部の抽出 */
+  G = cgs_choose(RealCGS, Coord); /* 入力された座標からグレブナー基底を決定 */
+  New = newmainqe(G, Vari); /* 実根の存在判定 */
+  if(New == []){
+    return New;
+  }else{
+    if(New == 0){
+      KaiSet = nonzeroideal_ikp(G, Vari); /* グレブナー基底が0次元イデアルでないときの処理 */
+    }else{
+      KaiSet = varisolve(New); /* 変数の解の計算 */
+    }
+  }
+  return KaiSet;
+}
+
+/* グレブナー基底が0次元イデアルでないときの処理 */
+def nonzeroideal_ikp(G, Vari){
+  GSize = length(G);
+  VariSize = length(Vari);
+  KaiSet = [];
+  for(J = 0; J < GSize; J++){
+    for(K = 0; K < VariSize; K++){
+      if(G[J] == Vari[K]^2 + Vari[K+1]^2 - 1){
+        Vars = vars(G[J]);
+      }
+      K = K + 2;
+    }
+  }
+  if(Vars == []){
+    return KaiSet;
+  }else{
+    VarsSize = length(Vars);
+    for(J = 0; J < length(Vars); J){
+      G = subst(G, Vars[J], 0);
+      G = subst(G, Vars[J+1], 1);
+      J = J + 2;
+    }
+    Kai = varisolve(G);
+    KaiSize = length(Kai);
+    for(I = 0; I < KaiSize; I++){
+      KaiSet = append(KaiSet, [append([Vars], Kai[I])]);
+    }
+  }
+  return KaiSet;
+}
+
+/* 実数上で空でない分割部のCGSの抽出 */
+def generate_realcgs(CGS, Para, Jun){
+  CGSSize = length(CGS)$
+  RealCGS = []$
+  for(I = 0; I < CGSSize; I++){
+    Segment = segment(CGS[I][0][0], CGS[I][0][1], Para, Jun)$ 
+    if(Segment != []){
+      RealCGS = append(RealCGS, [CGS[I]])$
+    }
+  } 
+  return RealCGS;
+}
+
+/* グレブナー基底の決定 */
+def cgs_choose(CGS, Coord){
+  CGSSize = length(CGS);
+  CoordSize = length(Coord);
+  for(I = 0; I < CGSSize; I++){
+    SG = CGS[I];
+    S = SG[0];
+    G = SG[1];
+    ZeroSet = S[0];
+    ZeroSetCheck = zeroset_subst(ZeroSet, Coord); /* 0になる分割部の代入のチェック */
+    if(ZeroSetCheck == 1){
+      NonZeroSet = S[1];
+      NonZeroSetCheck = nonzeroset_subst(NonZeroSet, Coord); /* 0にならない分割部の代入のチェック */
+      if(NonZeroSetCheck == 1){
+        G = subst(G, x, Coord[0], y, Coord[1], z, Coord[2]);
+        return G;
+      }
+    }
+  }
+  return [];
+}
+
+/* 実根の存在判定 */
+def newmainqe(Set, Vari){
+  /* G = gr(Set, Vari, 2)$ */
+  G = Set;
+  if(G == []){
+    return 1;
+  }else{
+    if(G == [1]){
+      return [];
+    }else{
+      IdealCheck = zerodimideal_check(G, Vari); 
+      if(IdealCheck == 1){
+        Kai = generate_kai(G, 1, Vari); /* 固有多項式の計算 */
+        Count = eigen_num(Kai); /* 正の固有値の個数-符の固有値の個数 */
+        if(Count > 0){
+          return G;
+        }else{
+          return [];
+        }       
+      }else{ 
+        return 0;
+      }
+    }
+  }
+  return [];
+}
+
+/* 変数の解の計算 */
+
+def varisolve(Set){
+  SetSize = length(Set);
+  KaiSet = [];
+  for(I = 0; I < SetSize; I++){
+    G = Set[I];
+    if(G == 0){
+      break;
+    }else{
+      if(I == 0){
+        Kai = main_varisolve(G, []);
+        KaiSize = length(Kai);
+        for(J = 1; J < KaiSize; J++){
+          KaiSet = append(KaiSet, [[[Kai[0], Kai[J]]]]);
+        }
+      }else{
+        KaiSetSize = length(KaiSet);
+        for(J = 0; J < KaiSetSize; J++){
+          Kai = main_varisolve(G, car(KaiSet))$
+          KaiSize = length(Kai)$
+          for(K = 1; K < KaiSize; K++){
+            KaiSet = append(KaiSet, [append(car(KaiSet), [[Kai[0], Kai[K]]])])$
+          }
+          KaiSet = cdr(KaiSet);
+        }
+      }
+    }
+  }
+  return KaiSet;
+}
+
+def main_varisolve(Poly, Kai){
+  KaiSize = length(Kai);
+  for(I = 0; I < KaiSize; I++){
+    Poly = subst(Poly, Kai[I][0], Kai[I][1]);
+  }
+  AA = pari(roots, eval(Poly));
+  AASize = length(AA);
+  A = [];
+  for(I = 0; I < AASize; I++){
+    if(ntype(AA[I]) != 4){
+      A = append(A, [AA[I]]);
+    }
+  }
+  ASize = length(A);
+  ASet = [var(eval(Poly))];
+  for(I = 0; I < ASize; I++){
+    ASet = append(ASet, [A[I]]);
+  }
+  return ASet;
+}
+
+/* 0になる分割部の代入のチェック */
+def zeroset_subst(Set, Coord){
+  SetSize = length(Set);
+  Frag = 1;
+  for(I = 0; I < SetSize; I++){
+    Zero = Set[I];
+    Zero = subst(Zero, x, Coord[0], y, Coord[1], z, Coord[2]);
+    if(eval(Zero) != 0){
+      Frag = 0;
+      break;
+    }
+  }
+  if(Frag == 1){
+    return 1;
+  }else{
+    return 0;
+  }
+}
+
+/* 0にならない分割部の代入のチェック */
+def nonzeroset_subst(Set, Coord){
+  SetSize = length(Set);
+  CoordSize = length(Coord);
+  Frag = 1;
+  for(I = 0; I < SetSize; I++){
+    NonZero = Set[I];
+    for(J = 0; J < CoordSize; J++){
+      NonZero = subst(NonZero, x, Coord[0], y, Coord[1], z, Coord[2]);
+    }
+    if(eval(NonZero) == 0){
+      Frag = 0;
+      break;
+    }
+  }
+  if(Frag == 1){
+    return 1;
+  }else{
+    return 0;
+  }
+}
+
+/* 正の固有値の個数-符の固有値の個数 */
+def eigen_num(CPoly){
+  Count = 0;
+  Kai = pari(roots, CPoly);
+  KaiSize = length(Kai);
+  for(I = 0; I < KaiSize; I++){
+    if(Kai[I] == 0){
+      continue;
+    }else{
+      if(Kai[I] > 0){
+        Count = Count + 1;
+      }else{
+        Count = Count - 1;
+      }
+    }
+  }
+  return Count;
+}
