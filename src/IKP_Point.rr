@@ -6,22 +6,22 @@ load("Segment.rr")$
 load("MainQE.rr")$
 
 def ikp_point(CGS, Para, Vari, Jun, Coord){
-  RealCGS = generate_realcgs(CGS, Para, Jun); /* 実数上で空でない分割部の抽出 */
-  G = cgs_choose(RealCGS, Coord); /* 入力された座標からグレブナー基底を決定 */
-  New = newmainqe(G, Vari); /* 実根の存在判定 */
+  RealCGS = generate_realcgs(CGS, Para, Jun); // Extract non-empty segments over the real number field
+  G = cgs_choose(RealCGS, Coord); // Choose the Groenber basis in the corresponding segment for the given coordinate
+  New = newmainqe(G, Vari); // Verification of the existence of a real root
   if(New == []){
     return New;
   }else{
     if(New == 0){
-      KaiSet = nonzeroideal_ikp(G, Vari); /* グレブナー基底が0次元イデアルでないときの処理 */
+      KaiSet = nonzeroideal_ikp(G, Vari); // Process for the case when the ideal is not zero dimensional
     }else{
-      KaiSet = varisolve(New); /* 変数の解の計算 */
+      KaiSet = varisolve(New); // Solving the inverse kinematic equation
     }
   }
   return KaiSet;
 }
 
-/* グレブナー基底が0次元イデアルでないときの処理 */
+// Process for the case when the ideal is not zero 
 def nonzeroideal_ikp(G, Vari){
   GSize = length(G);
   VariSize = length(Vari);
@@ -52,7 +52,7 @@ def nonzeroideal_ikp(G, Vari){
   return KaiSet;
 }
 
-/* 実数上で空でない分割部のCGSの抽出 */
+// Extract non-empty segments over the real number
 def generate_realcgs(CGS, Para, Jun){
   CGSSize = length(CGS)$
   RealCGS = []$
@@ -65,7 +65,7 @@ def generate_realcgs(CGS, Para, Jun){
   return RealCGS;
 }
 
-/* グレブナー基底の決定 */
+// Choose the Groenber basis in the corresponding segment for the given coordinate
 def cgs_choose(CGS, Coord){
   CGSSize = length(CGS);
   CoordSize = length(Coord);
@@ -87,7 +87,7 @@ def cgs_choose(CGS, Coord){
   return [];
 }
 
-/* 実根の存在判定 */
+// Verification of the existence of a real root
 def newmainqe(Set, Vari){
   /* G = gr(Set, Vari, 2)$ */
   G = Set;
@@ -99,8 +99,8 @@ def newmainqe(Set, Vari){
     }else{
       IdealCheck = zerodimideal_check(G, Vari); 
       if(IdealCheck == 1){
-        Kai = generate_kai(G, 1, Vari); /* 固有多項式の計算 */
-        Count = eigen_num(Kai); /* 正の固有値の個数-符の固有値の個数 */
+        Kai = generate_kai(G, 1, Vari); // Computing the characteristic polynomial
+        Count = eigen_num(Kai); //  Counting ((the number of positive eigenvalues) - (the number of negative eigenvalues))
         if(Count > 0){
           return G;
         }else{
@@ -114,7 +114,7 @@ def newmainqe(Set, Vari){
   return [];
 }
 
-/* 変数の解の計算 */
+// Solving the inverse kinematic equation
 
 def varisolve(Set){
   SetSize = length(Set);
@@ -208,7 +208,7 @@ def nonzeroset_subst(Set, Coord){
   }
 }
 
-/* 正の固有値の個数-符の固有値の個数 */
+//  Counting ((the number of positive eigenvalues) - (the number of negative eigenvalues))
 def eigen_num(CPoly){
   Count = 0;
   Kai = pari(roots, CPoly);
