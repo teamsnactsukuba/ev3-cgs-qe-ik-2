@@ -74,10 +74,10 @@ def cgs_choose(CGS, Coord){
     S = SG[0];
     G = SG[1];
     ZeroSet = S[0];
-    ZeroSetCheck = zeroset_subst(ZeroSet, Coord); /* 0になる分割部の代入のチェック */
+    ZeroSetCheck = zeroset_subst(ZeroSet, Coord); // a zero verification of the affine manifold
     if(ZeroSetCheck == 1){
       NonZeroSet = S[1];
-      NonZeroSetCheck = nonzeroset_subst(NonZeroSet, Coord); /* 0にならない分割部の代入のチェック */
+      NonZeroSetCheck = nonzeroset_subst(NonZeroSet, Coord); // a nonzero verification of the affine manifold
       if(NonZeroSetCheck == 1){
         G = subst(G, x, Coord[0], y, Coord[1], z, Coord[2]);
         return G;
@@ -167,7 +167,7 @@ def main_varisolve(Poly, Kai){
   return ASet;
 }
 
-/* 0になる分割部の代入のチェック */
+// A zero verification of the affine manifold
 def zeroset_subst(Set, Coord){
   SetSize = length(Set);
   Frag = 1;
@@ -186,7 +186,7 @@ def zeroset_subst(Set, Coord){
   }
 }
 
-/* 0にならない分割部の代入のチェック */
+// A nonzero verification of the affine manifold
 def nonzeroset_subst(Set, Coord){
   SetSize = length(Set);
   CoordSize = length(Coord);
