@@ -37,7 +37,7 @@
     * zerovars(Set, Vari): 0になる変数の抽出
     * zero_subst(Set, Vars): 変数に0を代入
     * two_varideg(Poly): 1変数2次方程式を抽出
-    * kai(Poly): 判別式
+    * discriminant(Poly): Computing the discriminant of quadratic polynomial
     * coefset(Poly): 係数の集合の構成
     * max(Set): 集合の最大値を抽出
     * signs_change(Set): 符号の変化の数を数える
