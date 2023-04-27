@@ -26,7 +26,7 @@
     * segment(ZeroSet, NonZeroSet, Param, Ord): 実数体上に存在しない分割部の削除
     * first(ZeroSet, NonzeroSet, Vari): 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合)
     * second(Set): In the case ZeroSet contains a univariate polynomial of degree 2
-    * third(Set): 分割部のうち0とする部分に1変数の2次以上の方程式が含まれる場合
+    * third(Set): In the case ZeroSet contains a univariate polynomial of degree > 2
     * union(A,B): A∪B
     * memberof(Element, Set): Element∈Set のチェック
     * even_number(Number): Number が偶数かのチェック
