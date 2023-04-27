@@ -88,7 +88,7 @@ def third(Set){
   return Set;
 }
 
-/* A∪B */
+// Compute A union B
 def union(A,B){
   SA = length(A);
   SB = length(B);

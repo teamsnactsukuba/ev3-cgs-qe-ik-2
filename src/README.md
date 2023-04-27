@@ -27,7 +27,7 @@
     * first(ZeroSet, NonzeroSet, Vari): 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合)
     * second(Set): In the case ZeroSet contains a univariate polynomial of degree 2
     * third(Set): In the case ZeroSet contains a univariate polynomial of degree > 2
-    * union(A,B): A∪B
+    * union(A,B): A union B
     * memberof(Element, Set): Element∈Set のチェック
     * even_number(Number): Number が偶数かのチェック
     * term_deg(Term): 単項式の次数が偶数かのチェック
