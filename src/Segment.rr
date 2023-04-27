@@ -113,7 +113,7 @@ def union(A,B){
   return C;
 }
 
-/* Element∈Set のチェック*/
+// Test if the element is a member of the set
 def memberof(Element, Set){
   Size = length(Set);
   for(I = 0; I < Size; I++){

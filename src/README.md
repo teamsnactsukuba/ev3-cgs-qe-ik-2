@@ -28,7 +28,7 @@
     * second(Set): In the case ZeroSet contains a univariate polynomial of degree 2
     * third(Set): In the case ZeroSet contains a univariate polynomial of degree > 2
     * union(A,B): A union B
-    * memberof(Element, Set): Element∈Set のチェック
+    * memberof(Element, Set): Test if the Element is a member of the Set
     * even_number(Number): Number が偶数かのチェック
     * term_deg(Term): 単項式の次数が偶数かのチェック
     * even(Set, Vari): 変数の次数が偶数の多項式の抽出
