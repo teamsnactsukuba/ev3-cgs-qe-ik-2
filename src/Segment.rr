@@ -27,7 +27,7 @@ def segment(ZeroSet, NonZeroSet, Param, Ord){
 /* 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合) */
 def first(ZeroSet, NonzeroSet, Vari){
   Size = length(ZeroSet);
-  Even = even(ZeroSet, Vari); /* 変数の次数が偶数の多項式の抽出 */
+  Even = even_degree_poly(ZeroSet, Vari); // Extract polynomials consisting of terms of even degrees from the Set
   if(Even == []){
     return ZeroSet;
   }else{
@@ -155,8 +155,8 @@ def even_degree_term(Term){
   }
 }
 
-/* 変数の次数が偶数の多項式の抽出 */
-def even(Set, Vari){
+// Extract polynomials consisting of terms of even degrees from the Set
+def even_degree_poly(Set, Vari){
   Size = length(Set);
   dp_ord(2);
   S = [];
