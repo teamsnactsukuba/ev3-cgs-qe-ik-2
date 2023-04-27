@@ -23,7 +23,7 @@
 ## Main files
 
 * Segment.rr : 実数体上に存在しない分割部の削除 (手順 2)
-    * segment(ZeroSet, NonZeroSet, Para, Jun): 実数体上に存在しない分割部の削除
+    * segment(ZeroSet, NonZeroSet, Param, Ord): 実数体上に存在しない分割部の削除
     * first(ZeroSet, NonzeroSet, Vari): 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合)
     * second(Set): 分割部のうち0とする部分に1変数2次方程式が含まれる場合
     * third(Set): 分割部のうち0とする部分に1変数の2次以上の方程式が含まれる場合

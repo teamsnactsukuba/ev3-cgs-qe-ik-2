@@ -5,8 +5,8 @@
 
 // segment: the main fuction
 
-def segment(ZeroSet, NonZeroSet, Para, Jun){
-  G = gr(ZeroSet, Para, Jun);
+def segment(ZeroSet, NonZeroSet, Param, Ord){
+  G = gr(ZeroSet, Param, Ord);
   if(G == [1]){
     return [];
   }else{
