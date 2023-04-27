@@ -22,6 +22,31 @@
 
 ## Main files
 
+* Segment.rr : 実数体上に存在しない分割部の削除 (手順 2)
+  * segment(ZeroSet, NonZeroSet, Para, Jun) : 実数体上に存在しない分割部の削除
+    * first(ZeroSet, NonzeroSet, Vari) : 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合)
+    * second(Set) : 分割部のうち0とする部分に1変数2次方程式が含まれる場合
+    * third(Set) : 分割部のうち0とする部分に1変数の2次以上の方程式が含まれる場合
+      * union(A,B) : A∪B
+      * memberof(Element, Set) : Element∈Set のチェック
+      * even_number(Number) : Number が偶数かのチェック
+      * term_deg(Term) : 単項式の次数が偶数かのチェック
+      * even(Set, Vari) : 変数の次数が偶数の多項式の抽出
+      * signs(Set, Vari) : 符号の計算
+      * elementeq(Set) : Set の要素が等しいかのチェック
+      * zerovars(Set, Vari) : 0になる変数の抽出
+      * zero_subst(Set, Vars) : 変数に0を代入
+      * two_varideg(Poly) : 1変数2次方程式を抽出
+      * kai(Poly) : 判別式
+      * coefset(Poly) : 係数の集合の構成
+      * max(Set) : 集合の最大値を抽出
+      * signs_change(Set) : 符号の変化の数を数える
+      * sturm_generate(Poly) : スツルム列の構成
+      * genkai(Poly) : 根の限界の計算
+      * sign_limit(Poly) : 正負の無限大における多項式の符号
+      * three_varideg(Poly) : 1変数の3次以上の多項式の抽出
+      * sturm(Poly) : スツルムの定理を用いた実根の数え上げ
+
 ## Data files
 
 ## Subsidiary files
