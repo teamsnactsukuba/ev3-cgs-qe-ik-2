@@ -30,7 +30,7 @@
     * union(A,B): A union B
     * memberof(Element, Set): Test if the Element is a member of the Set
     * iseven(Number): Test if the number is even
-    * term_deg(Term): 単項式の次数が偶数かのチェック
+    * even_degree_term(Term): Test if the monomial has even degree w.r.t. all the variables
     * even(Set, Vari): 変数の次数が偶数の多項式の抽出
     * signs(Set, Vari): 符号の計算
     * elementeq(Set): Set の要素が等しいかのチェック

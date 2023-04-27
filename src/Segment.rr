@@ -129,8 +129,8 @@ def iseven(Num){
   return 1 - (Num % 2);
 }
 
-/* 単項式の次数が偶数かのチェック */
-def term_deg(Term){
+// Test if the monomial has even degree w.r.t. all the variables
+def even_degree_term(Term){
   Vars = vars(eval(Term));
   VarsSize = length(Vars);
   if(VarsSize == 0){
@@ -168,7 +168,7 @@ def even(Set, Vari){
       TermsSize = length(Terms);
       for(J = 0; J < TermsSize; J++){
         if(Terms[J] != 1){
-          Deg = term_deg(Terms[J]); /* 単項式の次数が偶数かのチェック */
+          Deg = even_degree_term(Terms[J]); // Test if the monomial has even degree w.r.t. all the variables
           if(Deg == 0){
             Frag = 0;
             break;
