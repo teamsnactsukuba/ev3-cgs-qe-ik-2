@@ -1,4 +1,9 @@
-/* 実数体上に存在しない分割部の削除 */
+// Segment.rr
+// A program for eliminating a segment that is not included in the real number field
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
+
+// segment: the main fuction
 
 def segment(ZeroSet, NonZeroSet, Para, Jun){
   G = gr(ZeroSet, Para, Jun);
