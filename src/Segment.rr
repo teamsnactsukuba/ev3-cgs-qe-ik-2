@@ -59,7 +59,7 @@ def first(ZeroSet, NonzeroSet, Vari){
   return ZeroSet;
 }
 
-/* 分割部のうち0とする部分に1変数2次方程式が含まれる場合 */
+// In the case ZeroSet contains a univariate polynomial of degree 2
 def second(Set){
   Size = length(Set);
   for(I = 0; I < Size; I++){
