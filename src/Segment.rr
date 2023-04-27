@@ -1,0 +1,409 @@
+/* 実数体上に存在しない分割部の削除 */
+
+def segment(ZeroSet, NonZeroSet, Para, Jun){
+  G = gr(ZeroSet, Para, Jun);
+  if(G == [1]){
+    return [];
+  }else{
+    Third = third(ZeroSet);
+    if(Third != []){
+      Second = second(ZeroSet);
+      if(Second != []){
+        First = first(ZeroSet, NonZeroSet, Para);
+        if(First != []){
+            return ZeroSet;
+        }
+      }
+    }
+  }
+  return [];
+}
+
+/* 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合) */
+def first(ZeroSet, NonzeroSet, Vari){
+  Size = length(ZeroSet);
+  Even = even(ZeroSet, Vari); /* 変数の次数が偶数の多項式の抽出 */
+  if(Even == []){
+    return ZeroSet;
+  }else{
+    Vars = zerovars(Even, Vari); /* 0になる変数の抽出 */
+    if(Vars == [1]){
+      return []; /* 実数解が存在しない */
+    }else{
+      if(Vars == []){
+        return ZeroSet; /* 0になる変数が存在しない */
+      }
+    }
+  }
+  NewZeroSet = zero_subst(ZeroSet, Vars); /* 0になる分割部の0になる変数に0を代入 */
+  NewZeroSetSize = length(NewZeroSet);
+  for(I = 0; I < NewZeroSetSize; I++){
+    if(var(NewZeroSet[I]) == 0){
+       if(NewZeroSet[I] != 0){
+         return []; /* 0でない整数のとき分割部は存在しない */
+       }
+    }
+  }
+  NewNonZeroSet = zero_subst(NonzeroSet, Vars); /* 0にならない分割部の0になる変数に0を代入 */
+  NewNonZeroSetSize = length(NewNonZeroSet);
+  for(I = 0; I < NewNonZeroSetSize; I++){
+    if(NewNonZeroSet[I] == 0){
+      return []; /* 0 となるとき分割部は存在しない */
+    }
+  }
+  return ZeroSet;
+}
+
+/* 分割部のうち0とする部分に1変数2次方程式が含まれる場合 */
+def second(Set){
+  Size = length(Set);
+  for(I = 0; I < Size; I++){
+    if(two_varideg(Set[I]) == 1){
+      Kai = kai(Set[I]);
+      if(Kai == 0){
+        return [];
+      }
+    }
+  }
+  return Set;
+}
+
+/* 分割部のうち0とする部分に1変数の2次以上の方程式が含まれる場合 */
+def third(Set){
+  Size = length(Set);
+  for(I = 0; I < Size; I++){
+    /* 1変数の3次以上の多項式の抽出 */
+    if(three_varideg(Set[I]) == 1){
+      N = sturm(Set[I]); /* スツルムの定理を用いた実根の数え上げ */
+      if(N == 0){
+        return [];
+      }
+    }
+  }
+  return Set;
+}
+
+/* A∪B */
+def union(A,B){
+  SA = length(A);
+  SB = length(B);
+  NotinB = 0;
+  /* #(A-B) */
+  for (I = 0; I < SA; I++){
+    if ( memberof(A[I], B) == 0)
+      NotinB++;
+  }
+  /* #(A cup B) = #B + #(A-B) */
+  SC = SB + NotinB;
+  C = [];
+  for (K = 0; K < SB; K++){
+    C = append(C, [B[K]]);
+  }
+  for ( I = 0; I < SA; I++){
+    if ( memberof(A[I], B) == 0){
+      C = append(C, [A[I]]);
+      K++;
+      }
+  }
+  return C;
+}
+
+/* Element∈Set のチェック*/
+def memberof(Element, Set){
+  Size = length(Set);
+  for(I = 0; I < Size; I++){
+    if(Set[I] == Element){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+/* Number が偶数かのチェック */
+def even_number(Number){
+  if(irem(Number, 2) == 0){
+    return 1;
+  }
+  return 0;
+}
+
+/* 単項式の次数が偶数かのチェック */
+def term_deg(Term){
+  Vars = vars(eval(Term));
+  VarsSize = length(Vars);
+  if(VarsSize == 0){
+    return 0;
+  }else{
+    if(VarsSize == 1){
+      Deg = deg(Term, Vars[0]);
+      if(even_number(Deg) == 1){
+        return 1;
+      }else{
+        return 0;
+      }
+    }else{
+      for(I = 0; I < VarsSize; I++){
+        Deg = deg(Term, Vars[I]);
+        if(even_number(Deg) == 0){
+          return 0;
+        }
+      }
+      return 1;
+    }
+  }
+}
+
+/* 変数の次数が偶数の多項式の抽出 */
+def even(Set, Vari){
+  Size = length(Set);
+  dp_ord(2);
+  S = [];
+  for(I = 0; I  < Size; I++){
+    if(Set[I] == 1){
+      break;
+    }else{
+      Terms = p_terms(eval(Set[I]), Vari, 2); /* 単項式の集合の作成 */
+      TermsSize = length(Terms);
+      for(J = 0; J < TermsSize; J++){
+        if(Terms[J] != 1){
+          Deg = term_deg(Terms[J]); /* 単項式の次数が偶数かのチェック */
+          if(Deg == 0){
+            Frag = 0;
+            break;
+          }else{
+            Frag = 1;
+          }
+        }
+      }
+      if(Frag == 1){
+          S = append(S, [Set[I]]);
+      }
+    }
+  }
+  return S;
+}
+
+/* 符号の計算 */
+def signs(Set, Vari){
+  dp_ord(2);
+  Size = length(Set);
+  CoefSet = [];
+  for(I = 0; I < Size; I++){
+    Dp = dp_ptod(Set[I], Vari);
+    Coef = [];
+    X = 0;
+    while(Dp){
+      if(memberof(var(dp_dtop(Dp, Vari)), Vari) == 0){
+        DpH = dp_hc(Dp);
+        if(eval(DpH) > 0){
+          X = 1;
+        }else{
+          X = -1;
+        }
+      }else{
+        DpH = dp_hc(Dp);
+        if(eval(DpH) > 0){
+          Coef = append(Coef, [1]);
+        }else{
+          Coef = append(Coef, [-1]);
+        }
+      }
+      Dp = dp_rest(Dp);
+    }
+    CoefSet = append(CoefSet, [[Coef, [X]]]);
+  }
+  return CoefSet;
+}
+
+/* Set の要素が等しいかのチェック */
+def elementeq(Set){
+  Size = length(Set);
+  for(I = 1; I < Size; I++){
+    if(Set[I - 1] != Set[I]){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+/* 0になる変数の抽出 */
+def zerovars(Set, Vari){
+  Vars = [];
+  Signs = signs(Set, Vari);
+  SignsSize = length(Signs);
+  for(I = 0; I < SignsSize; I++){
+    CoefSigns = Signs[I][0];
+    X = Signs[I][1];
+    if(elementeq(CoefSigns) == 1){
+      if(CoefSigns[0] == X[0]){
+        return [1]; /* 実数解が存在しない */
+      }else{
+        if(X[0] == 0){
+          Vars = union(Vars, vars(eval(Set[I])));
+        }
+      }
+    }
+  }
+  return Vars;
+}
+
+/* 変数に0を代入 */
+def zero_subst(Set, Vars){
+  VarsSize = length(Vars);
+  if(VarsSize == 0){
+    return Set;
+  }else{
+    for(I = 0; I < VarsSize; I++){
+      Set = map(subst, Set, Vars[I], 0);
+    }
+  }
+  return Set;
+}
+
+/* 1変数2次方程式を抽出 */
+def two_varideg(Poly){
+  Vars = vars(eval(Poly));
+  VarsSize = length(Vars);
+  if(VarsSize == 1){
+    Deg = deg(Poly, Vars[0]);
+    if(Deg == 2){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+/* 判別式 */
+def kai(Poly){
+  A = coef(Poly, 2);
+  B = coef(Poly, 1);
+  C = coef(Poly, 0);
+  if(eval(B^2-4*A*C) < 0){
+    return 0;
+  }
+  return 1;
+}
+
+/* 係数の集合の構成 */
+def coefset(Poly){
+  Coef = [];
+  Var = var(Poly);
+  Deg = deg(Poly, Var);
+  for(I = 0; I < Deg + 1; I++){
+    Coef = cons(coef(Poly, I), Coef);
+  }
+  return Coef;
+}
+
+/* 集合の最大値を抽出 */
+def max(Set){
+  SetSize = length(Set);
+  Max = Set[0];
+  if(SetSize !=1){
+    for(I = 1; I < SetSize; I++){
+      if(Set[I] > Max){
+        Max = Set[I];
+      }
+    }
+  }
+  return Max;
+}
+
+/*符号の変化の数を数える */
+def signs_change(Set){
+  N = 0;
+  Size = length(Set);
+  for(I = 1; I < Size; I++){
+    if(Set[I - 1] != Set[I]){
+      N = N + 1;
+    }
+  }
+  return N;
+}
+
+/* スツルム列の構成 */
+def sturm_generate(Poly){
+  Var = var(eval(Poly));
+  Deg = deg(Poly, Var);  
+  F0 = Poly;
+  F1 = diff(Poly, Var);
+  F = append([F0], [F1]);
+  for(I = 0; I < Deg; I++){
+    X = -srem(F[I], F[I+1]);
+    Coef = coef(X, deg(X, Var));
+    if(eval(Coef) > 0){
+      Y = 1/Coef * X;
+    }else{
+      Y = -1/Coef * X;
+    }    
+    F = append(F, [Y]);
+    if(deg(Y, Var) == 0){
+      break;
+    }
+  }
+  return F;
+}
+
+/* 根の限界の計算 */
+def genkai(Poly){
+  M = [];
+  Coef = coefset(Poly);
+  CoefSize = length(Coef);
+  A = pari(abs, Coef[0]);
+  for(I = 1; I < CoefSize; I++){
+    B = pari(abs, Coef[I]);
+    M = append(M, [B/A]);
+  }
+  Max = max(M);
+  return Max + 1;
+}
+
+/* 正負の無限大における多項式の符号 */
+def sign_limit(Poly){
+  Var = var(Poly);
+  Deg = deg(Poly, Var);
+  A = coef(Poly, Deg);
+  if(A > 0){
+    if(even_number(Deg) == 1){
+      Signs = [1, 1]; 
+    }else{
+      Signs = [-1, 1];
+    }
+  }else{
+    if(even_number(Deg) == 1){
+      Signs = [-1, -1]; 
+    }else{
+      Signs = [1, -1];
+    }
+  }
+  return Signs;
+}
+
+/* 1変数の3次以上の多項式の抽出 */
+def three_varideg(Poly){
+  Vars = vars(eval(Poly));
+  VarsSize = length(Vars);
+  if(VarsSize == 1){
+    Deg = deg(Poly, Vars[0]);
+    if(Deg > 2){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+/* スツルムの定理を用いた実根の数え上げ */
+def sturm(Poly){
+  Sturm = sturm_generate(Poly);
+  SignsPlus = [];
+  SignsMinus = [];
+  SturmSize = length(Sturm);
+  for(I = 0; I < SturmSize; I++){
+    SignLimit = sign_limit(Sturm[I]);
+    SignsMinus = append(SignsMinus, [SignLimit[0]]);
+    SignsPlus = append(SignsPlus, [SignLimit[1]]);
+  }
+  NMinus = signs_change(SignsMinus);
+  NPlus = signs_change(SignsPlus);
+  return NMinus - NPlus;
+}
