@@ -164,7 +164,7 @@ def even_degree_poly(Set, Var){
     if(Set[I] == 1){
       break;
     }else{
-      Terms = p_terms(eval(Set[I]), Var, 2); /* 単項式の集合の作成 */
+      Terms = p_terms(eval(Set[I]), Var, 2); // Collect the monomials in Set[I]
       TermsSize = length(Terms);
       for(J = 0; J < TermsSize; J++){
         if(Terms[J] != 1){
