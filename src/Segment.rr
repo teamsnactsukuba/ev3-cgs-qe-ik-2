@@ -217,7 +217,7 @@ def signs(Set, Var){
   return CoefSet;
 }
 
-/* Set の要素が等しいかのチェック */
+// A test if all the elements in Set are equal
 def elementeq(Set){
   Size = length(Set);
   for(I = 1; I < Size; I++){
