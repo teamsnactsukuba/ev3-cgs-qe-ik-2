@@ -360,7 +360,7 @@ def genkai(Poly){
   return Max + 1;
 }
 
-/* 正負の無限大における多項式の符号 */
+// Signs of the polynomial at [-Infinity, +Infinity]
 def sign_limit(Poly){
   Var = var(Poly);
   Deg = deg(Poly, Var);
