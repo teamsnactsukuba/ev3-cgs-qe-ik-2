@@ -394,7 +394,7 @@ def three_varideg(Poly){
   return 0;
 }
 
-/* スツルムの定理を用いた実根の数え上げ */
+// Real root counting with the Sturm's method
 def sturm(Poly){
   Sturm = sturm_generate(Poly);
   SignsPlus = [];

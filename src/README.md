@@ -45,7 +45,7 @@
     * genkai(Poly): 根の限界の計算
     * sign_limit(Poly): 正負の無限大における多項式の符号
     * three_varideg(Poly): 1変数の3次以上の多項式の抽出
-    * sturm(Poly): スツルムの定理を用いた実根の数え上げ
+    * sturm(Poly): Real root counting with the Sturm's method
 
 ## Data files
 
