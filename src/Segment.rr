@@ -409,3 +409,5 @@ def sturm(Poly){
   NPlus = signs_change(SignsPlus);
   return NMinus - NPlus;
 }
+
+end$
