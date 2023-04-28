@@ -25,13 +25,13 @@ def segment(ZeroSet, NonZeroSet, Param, Ord){
 }
 
 /* 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合) */
-def first(ZeroSet, NonzeroSet, Vari){
+def first(ZeroSet, NonzeroSet, Var){
   Size = length(ZeroSet);
-  Even = even_degree_poly(ZeroSet, Vari); // Extract polynomials consisting of terms of even degrees from the Set
+  Even = even_degree_poly(ZeroSet, Var); // Extract polynomials consisting of terms of even degrees from the Set
   if(Even == []){
     return ZeroSet;
   }else{
-    Vars = zerovars(Even, Vari); /* 0になる変数の抽出 */
+    Vars = zerovars(Even, Var); /* 0になる変数の抽出 */
     if(Vars == [1]){
       return []; /* 実数解が存在しない */
     }else{
@@ -156,7 +156,7 @@ def even_degree_term(Term){
 }
 
 // Extract polynomials consisting of terms of even degrees from the Set
-def even_degree_poly(Set, Vari){
+def even_degree_poly(Set, Var){
   Size = length(Set);
   dp_ord(2);
   S = [];
@@ -164,7 +164,7 @@ def even_degree_poly(Set, Vari){
     if(Set[I] == 1){
       break;
     }else{
-      Terms = p_terms(eval(Set[I]), Vari, 2); /* 単項式の集合の作成 */
+      Terms = p_terms(eval(Set[I]), Var, 2); /* 単項式の集合の作成 */
       TermsSize = length(Terms);
       for(J = 0; J < TermsSize; J++){
         if(Terms[J] != 1){
@@ -186,16 +186,16 @@ def even_degree_poly(Set, Vari){
 }
 
 /* 符号の計算 */
-def signs(Set, Vari){
+def signs(Set, Var){
   dp_ord(2);
   Size = length(Set);
   CoefSet = [];
   for(I = 0; I < Size; I++){
-    Dp = dp_ptod(Set[I], Vari);
+    Dp = dp_ptod(Set[I], Var);
     Coef = [];
     X = 0;
     while(Dp){
-      if(memberof(var(dp_dtop(Dp, Vari)), Vari) == 0){
+      if(memberof(var(dp_dtop(Dp, Var)), Var) == 0){
         DpH = dp_hc(Dp);
         if(eval(DpH) > 0){
           X = 1;
@@ -229,9 +229,9 @@ def elementeq(Set){
 }
 
 /* 0になる変数の抽出 */
-def zerovars(Set, Vari){
+def zerovars(Set, Var){
   Vars = [];
-  Signs = signs(Set, Vari);
+  Signs = signs(Set, Var);
   SignsSize = length(Signs);
   for(I = 0; I < SignsSize; I++){
     CoefSigns = Signs[I][0];
