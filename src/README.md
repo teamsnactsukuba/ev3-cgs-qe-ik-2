@@ -41,7 +41,7 @@
     * coefset(Poly): 係数の集合の構成
     * max(Set): 集合の最大値を抽出
     * signs_change(Set): 符号の変化の数を数える
-    * sturm_generate(Poly): スツルム列の構成
+    * sturm_generate(Poly): Generating the Sturm sequence
     * genkai(Poly): 根の限界の計算
     * sign_limit(Poly): 正負の無限大における多項式の符号
     * three_varideg(Poly): 1変数の3次以上の多項式の抽出

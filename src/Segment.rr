@@ -323,7 +323,7 @@ def signs_change(Set){
   return N;
 }
 
-/* スツルム列の構成 */
+// Generating the Sturm sequence
 def sturm_generate(Poly){
   Var = var(eval(Poly));
   Deg = deg(Poly, Var);  
