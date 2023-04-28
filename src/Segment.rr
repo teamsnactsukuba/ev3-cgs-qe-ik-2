@@ -381,7 +381,7 @@ def sign_limit(Poly){
   return Signs;
 }
 
-/* 1変数の3次以上の多項式の抽出 */
+// Extract a univariate polynomial of degree >= 3
 def three_varideg(Poly){
   Vars = vars(eval(Poly));
   VarsSize = length(Vars);
