@@ -14,7 +14,7 @@ def segment(ZeroSet, NonZeroSet, Param, Ord){
     if(Third != []){
       Second = second(ZeroSet);
       if(Second != []){
-        First = first(ZeroSet, NonZeroSet, Para);
+        First = first(ZeroSet, NonZeroSet, Param);
         if(First != []){
             return ZeroSet;
         }
