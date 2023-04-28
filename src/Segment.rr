@@ -93,7 +93,7 @@ def union(A,B){
   SA = length(A);
   SB = length(B);
   NotinB = 0;
-  /* #(A-B) */
+  // Count the number of elements in (A-B)
   for (I = 0; I < SA; I++){
     if ( memberof(A[I], B) == 0)
       NotinB++;
