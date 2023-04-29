@@ -346,8 +346,8 @@ def sturm_generate(Poly){
   return F;
 }
 
-/* 根の限界の計算 */
-def genkai(Poly){
+// Computing a bound on all the roots of Poly (Cauchy's bound)
+def root_bound(Poly){
   M = [];
   Coef = coefset(Poly);
   CoefSize = length(Coef);

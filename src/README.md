@@ -42,7 +42,7 @@
     * max(Set): 集合の最大値を抽出
     * signs_change(Set): 符号の変化の数を数える
     * sturm_generate(Poly): Generating the Sturm sequence
-    * genkai(Poly): 根の限界の計算
+    * root_bound(Poly): Computing a bound on all the roots of Poly (Cauchy's bound)
     * sign_limit(Poly): 正負の無限大における多項式の符号
     * three_varideg(Poly): 1変数の3次以上の多項式の抽出
     * sturm(Poly): Real root counting with the Sturm's method
