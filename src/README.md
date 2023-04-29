@@ -44,7 +44,7 @@
     * sturm_generate(Poly): Generating the Sturm sequence
     * root_bound(Poly): Computing a bound on all the roots of Poly (Cauchy's bound)
     * sign_limit(Poly): 正負の無限大における多項式の符号
-    * three_varideg(Poly): 1変数の3次以上の多項式の抽出
+    * three_varideg(Poly): Test if Poly is a univariate polynomial of degree >= 3
     * sturm(Poly): Real root counting with the Sturm's method
 
 ## Data files
