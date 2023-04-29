@@ -43,7 +43,7 @@
     * signs_change(Set): 符号の変化の数を数える
     * sturm_generate(Poly): Generating the Sturm sequence
     * root_bound(Poly): Computing a bound on all the roots of Poly (Cauchy's bound)
-    * sign_limit(Poly): 正負の無限大における多項式の符号
+    * sign_limit(Poly): Signs of the polynomial at [-Infinity, +Infinity]
     * three_varideg(Poly): Test if Poly is a univariate polynomial of degree >= 3
     * sturm(Poly): Real root counting with the Sturm's method
 
