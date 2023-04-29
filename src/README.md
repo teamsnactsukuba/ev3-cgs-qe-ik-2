@@ -40,7 +40,7 @@
     * discriminant(Poly): Computing the discriminant of quadratic polynomial
     * coefset(Poly): Computing the list of the coefficients of Poly
     * max(Set): Extract the maximum value in Set
-    * signs_change(Set): 符号の変化の数を数える
+    * signs_change(Set): Counting the number of sign changes of Set
     * sturm_generate(Poly): Generating the Sturm sequence
     * root_bound(Poly): Computing a bound on all the roots of Poly (Cauchy's bound)
     * sign_limit(Poly): Signs of the polynomial at [-Infinity, +Infinity]
