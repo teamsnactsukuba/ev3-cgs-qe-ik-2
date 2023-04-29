@@ -22,8 +22,8 @@
 
 ## Main files
 
-* Segment.rr : 実数体上に存在しない分割部の削除 (手順 2)
-    * segment(ZeroSet, NonZeroSet, Param, Ord): 実数体上に存在しない分割部の削除
+* Segment.rr: eliminate segment(s) which are not real affine varieties (手順 2)
+    * segment(ZeroSet, NonZeroSet, Param, Ord): eliminate segment(s) which are not real affine varieties
     * first(ZeroSet, NonzeroSet, Vari): 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合)
     * second(Set): In the case ZeroSet contains a univariate polynomial of degree 2
     * third(Set): In the case ZeroSet contains a univariate polynomial of degree > 2

@@ -3,8 +3,7 @@
 // Mizuki Yoshizawa and Akira Terui
 // Team SNAC Tsukuba, 2023
 
-// segment: the main fuction
-
+// segment: eliminate segment(s) which are not real affine varieties
 def segment(ZeroSet, NonZeroSet, Param, Ord){
   G = gr(ZeroSet, Param, Ord);
   if(G == [1]){
@@ -311,7 +310,7 @@ def max(Set){
   return Max;
 }
 
-/*符号の変化の数を数える */
+// Counting the number of sign changes of Set
 def signs_change(Set){
   N = 0;
   Size = length(Set);
