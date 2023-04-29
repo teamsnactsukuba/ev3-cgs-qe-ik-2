@@ -32,9 +32,9 @@
     * iseven(Number): Test if the number is even
     * even_degree_term(Term): Test if the monomial has even degree w.r.t. all the variables
     * even_degree_poly(Set, Vari): Extract polynomials consisting of the terms of even degrees
-    * signs(Set, Vari): 符号の計算
+    * signs(Set, Var): 符号の計算
     * elementeq(Set): Set の要素が等しいかのチェック
-    * zerovars(Set, Vari): 0になる変数の抽出
+    * zerovars(Set, Var): 0になる変数の抽出
     * zero_subst(Set, Vars): 変数に0を代入
     * two_varideg(Poly): 1変数2次方程式を抽出
     * discriminant(Poly): Computing the discriminant of quadratic polynomial
