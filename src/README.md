@@ -38,7 +38,7 @@
     * zero_subst(Set, Vars): 変数に0を代入
     * two_varideg(Poly): Test if Poly is a univariate polynomial of degree 2
     * discriminant(Poly): Computing the discriminant of quadratic polynomial
-    * coefset(Poly): 係数の集合の構成
+    * coefset(Poly): Computing the list of the coefficients of Poly
     * max(Set): 集合の最大値を抽出
     * signs_change(Set): 符号の変化の数を数える
     * sturm_generate(Poly): Generating the Sturm sequence

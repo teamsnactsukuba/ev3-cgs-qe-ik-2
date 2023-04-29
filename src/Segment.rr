@@ -286,7 +286,7 @@ def discriminant(Poly){
   return 1;
 }
 
-/* 係数の集合の構成 */
+// Computing the list of the coefficients of Poly
 def coefset(Poly){
   Coef = [];
   Var = var(Poly);
