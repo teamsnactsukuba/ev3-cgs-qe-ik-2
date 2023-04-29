@@ -297,7 +297,7 @@ def coefset(Poly){
   return Coef;
 }
 
-/* 集合の最大値を抽出 */
+// Extract the maximum value in Set
 def max(Set){
   SetSize = length(Set);
   Max = Set[0];

@@ -39,7 +39,7 @@
     * two_varideg(Poly): Test if Poly is a univariate polynomial of degree 2
     * discriminant(Poly): Computing the discriminant of quadratic polynomial
     * coefset(Poly): Computing the list of the coefficients of Poly
-    * max(Set): 集合の最大値を抽出
+    * max(Set): Extract the maximum value in Set
     * signs_change(Set): 符号の変化の数を数える
     * sturm_generate(Poly): Generating the Sturm sequence
     * root_bound(Poly): Computing a bound on all the roots of Poly (Cauchy's bound)
