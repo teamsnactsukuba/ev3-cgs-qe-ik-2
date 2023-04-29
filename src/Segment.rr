@@ -262,7 +262,7 @@ def zero_subst(Set, Vars){
   return Set;
 }
 
-/* 1変数2次方程式を抽出 */
+// Test if Poly is a univariate polynomial of degree 2
 def two_varideg(Poly){
   Vars = vars(eval(Poly));
   VarsSize = length(Vars);

@@ -36,7 +36,7 @@
     * elementeq(Set): Set の要素が等しいかのチェック
     * zerovars(Set, Var): 0になる変数の抽出
     * zero_subst(Set, Vars): 変数に0を代入
-    * two_varideg(Poly): 1変数2次方程式を抽出
+    * two_varideg(Poly): Test if Poly is a univariate polynomial of degree 2
     * discriminant(Poly): Computing the discriminant of quadratic polynomial
     * coefset(Poly): 係数の集合の構成
     * max(Set): 集合の最大値を抽出
