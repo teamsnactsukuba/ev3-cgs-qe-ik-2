@@ -20,9 +20,17 @@
 
 ## Algorithm
 
+### Notation
+
+* $F$: A generator of polynomial ideal
+* Param: Parameters $x,y,z$ (the coordinates of the end-effector)
+* Var: Variables $c_1, s_1, c_4, s_4, c_7, s_7$
+* Ord: An order of variables used for Gröbner basis computation
+* Coord: The values of parameters $x,y,z$
+
 ## Main files
 
-* Segment.rr: eliminate segment(s) which does not have real affine varieties (手順 2)
+* Segment.rr: eliminate segment(s) which does not have real affine varieties (Step 2)
     * segment(ZeroSet, NonZeroSet, Param, Ord): Eliminate segment(s) which are not real affine varieties
     * first(ZeroSet, NonzeroSet, Var): Eliminate a segment that does not have a real affine variety by detecting parameters = 0 contained in the affine variety (in the case degree of the term is even)
     * second(Set): In the case ZeroSet contains a univariate polynomial of degree 2
