@@ -29,7 +29,7 @@ for(I = 0; I < 100; I++){
   print(CoodinateSet[I])$
   print("")$
   Point = ikp_point(CGS, Param, Var, Ord, CoodinateSet[I])$
-  Kai = kai_check(F, Point)$
+  Kai = kai_check(F1, Point)$
   for(J = 0; J < length(Point); J++){
     print([J + 1])$
     print(Point[J])$
@@ -43,10 +43,11 @@ for(I = 0; I < 100; I++){
   }
   print("----------------------")$
 }
-
-ErrorSetSize = length(ErrorSet);
-EA = calculation_error_average(ErrorSet);
-
 ctrl("cputime", 0)$
+
+print("The number of feasible solutions: ", 0)$
+ErrorSetSize = length(ErrorSet);
+print("The average of errors: ", 0)$
+EA = calculation_error_average(ErrorSet);
 
 end$
