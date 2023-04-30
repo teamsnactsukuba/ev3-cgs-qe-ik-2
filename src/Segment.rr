@@ -184,7 +184,17 @@ def even_degree_poly(Set, Var){
   return S;
 }
 
-/* 符号の計算 */
+// Computing signs of the polynomails in Set w.r.t. Var
+// Input: 
+//    Set = [P1,...,Pr],
+//    Var = [x1,...,xs],
+// where 
+//    Pj = Pj1 + Pj2 + ... Pjt(j) + Pj0,
+//    Pj0 is a constant and the other Pjl are monomials
+// Output: [Sign(P1), ... , Sign(Pr)], where
+//    Sign(Pj) = [[Sign(Pj1), ..., Sign(Pjt(j))], [Sign(Pj0)]],
+//    Sign(Pj) = {1,-1} 1=positive, -1=negative
+//    Note that Sign(Pj0) (the constant term) is contained in a sparate list
 def signs(Set, Var){
   dp_ord(2);
   Size = length(Set);
@@ -194,19 +204,18 @@ def signs(Set, Var){
     Coef = [];
     X = 0;
     while(Dp){
-      if(memberof(var(dp_dtop(Dp, Var)), Var) == 0){
-        DpH = dp_hc(Dp);
-        if(eval(DpH) > 0){
-          X = 1;
-        }else{
-          X = -1;
-        }
-      }else{
-        DpH = dp_hc(Dp);
+      DpH = dp_hc(Dp);
+      if (memberof(var(dp_dtop(Dp, Var)), Var)) { // DpH is not a constant
         if(eval(DpH) > 0){
           Coef = append(Coef, [1]);
         }else{
           Coef = append(Coef, [-1]);
+        }
+      } else { // DpH is a constant
+        if(eval(DpH) > 0){
+          X = 1;
+        }else{
+          X = -1;
         }
       }
       Dp = dp_rest(Dp);
@@ -234,10 +243,10 @@ def zerovars(Set, Var){
   SignsSize = length(Signs);
   for(I = 0; I < SignsSize; I++){
     CoefSigns = Signs[I][0];
-    X = Signs[I][1];
+    X = Signs[I][1]; // Sign of the constant term
     if(elementeq(CoefSigns) == 1){
-      if(CoefSigns[0] == X[0]){
-        return [1]; /* 実数解が存在しない */
+      if(CoefSigns[0] == X[0]){ // The polynomial never becomes zero for the real numbers
+        return [1]; // Real roots do not exist
       }else{
         if(X[0] == 0){
           Vars = union(Vars, vars(eval(Set[I])));

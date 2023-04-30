@@ -32,7 +32,7 @@
     * iseven(Number): Test if the number is even
     * even_degree_term(Term): Test if the monomial has even degree w.r.t. all the variables
     * even_degree_poly(Set, Vari): Extract polynomials consisting of the terms of even degrees
-    * signs(Set, Var): 符号の計算
+    * signs(Set, Var): Computing signs of the polynomails in Set w.r.t. Var
     * elementeq(Set): Test if all the elements in Set are equal
     * zerovars(Set, Var): 0になる変数の抽出
     * zero_subst(Set, Vars): 変数に0を代入
