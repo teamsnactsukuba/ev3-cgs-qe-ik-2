@@ -1,0 +1,75 @@
+/* 集合の要素を出力する */
+def test_print(Set){
+  for(I = 0; I < length(Set); I++){
+    print([I + 1])$
+    print(Set[I])$
+    print(" ")$
+  }
+}
+
+/* c_1, s_1, c_4, s_4, c_7, s_7 の作成 */
+def generate_cs(ThetaSet, Vari){
+  ThetaSetSize = length(ThetaSet);
+  VariSize = length(Vari);
+  VariSet = [];
+  Count = 0;
+  for(I = 0; I < VariSize; I){
+    VariSet = append(VariSet, [[Vari[I], dsin(eval(ThetaSet[Count]))]]);
+    VariSet = append(VariSet, [[Vari[I+1], dcos(eval(ThetaSet[Count]))]]);
+    I = I + 2;
+  }
+  return VariSet;
+}
+
+/* 座標の作成 */
+def generate_coodinate(ThetaSet, Vari){
+  VariSet = generate_cs(ThetaSet, Vari);
+  VariSetSize = length(VariSet);
+  X = -(112*c1*c4*s7 - 16*c1*c4 + 112*c1*s4*c_7 + 136*c_1*s_4 - 44*(2^(1/2))*c_1);
+  Y = -(112*s_1*c_4*s_7 - 16*s_1*c_4 + 112*s_1*s_4*c_7 + 136*s_1*s_4 - 44*(2^(1/2))*s_1);
+  Z = -(-112*c_4*c_7 - 136*c_4 + 112*s_4*s_7 - 16*s_4 -104 - 44*(2^(1/2)));
+  for(I = 0; I < VariSetSize; I++){
+    X = subst(X, VariSet[I][0], VariSet[I][1]);
+    Y = subst(Y, VariSet[I][0], VariSet[I][1]);
+    Z = subst(Z, VariSet[I][0], VariSet[I][1]);
+  }
+  return [[x, deval(X)], [y, deval(Y)], [z, deval(Z)]];
+}
+
+/* 解が正しいかのチェック */
+def kai_check(F, KaiSet){
+    KaiSetSize = length(KaiSet);
+    Coordinate = [];
+  for(I = 0; I < KaiSetSize; I++){
+    Kai = KaiSet[I];
+    KaiSize = length(Kai);
+    for(J = 0; J < KaiSize; J++){
+      F = map(subst, F, Kai[J][0], Kai[J][1]);
+    }
+    Coordinate = append(Coordinate, [[pari(roots, eval(F[0]))[0], pari(roots, eval(F[1]))[0], pari(roots, eval(F[2]))[0]]]);
+  }
+  return Coordinate;
+}
+
+/* θの計算 */
+def theta_check(KaiSet){
+  KaiSetSize = length(KaiSet);
+  ThetaSet = [];
+  for(I = 0; I < KaiSetSize; I++){
+  Kai = KaiSet[I];
+    KaiSize = length(Kai);
+    Theta = [];
+    for(J = 0; J < KaiSize; J){
+      T = dasin(eval(Kai[J][1]));
+      Theta = append(Theta, [T]);
+      J + 2;
+    }
+    ThetaSet = append(ThetaSet, [Theta]);
+  }
+  return ThetaSet;  
+}
+
+/* 出力を.datで使える形式に変換 */
+def print_dat(Set){
+  print_format(Set|list=[" "," "], sep = " ");
+}

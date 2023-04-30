@@ -1,0 +1,52 @@
+load("equation-1.rr")$
+load("IKP_Point.rr")$
+load("Test.rr")$
+ctrl("cputime", 1)$
+
+def calculation_error(Coodinate, Kai){
+  X_error = Coodinate[0] - Kai[0];
+  Y_error = Coodinate[1] - Kai[1];
+  Z_error = Coodinate[2] - Kai[2];
+  Error = eval(((X_error)^2 + (Y_error)^2 + (Z_error)^2)^(1/2));
+  return Error;
+}
+
+def calculation_error_average(ErrorSet){
+  ErrorSetSize = length(ErrorSet);
+  E = 0;
+  for(I = 0; I < ErrorSetSize; I++){
+    E = E + ErrorSet[I];
+  }
+  EA = eval(E / ErrorSetSize);
+  return EA;
+}
+
+CGS = bload("../F1_CGS.dat")$
+CoodinateSet = bload("../Coodinate10.dat")$
+ErrorSet = [];
+
+for(I = 0; I < 100; I++){
+  print(CoodinateSet[I])$
+  print("")$
+  Point = ikp_point(CGS, Param, Var, Ord, CoodinateSet[I])$
+  Kai = kai_check(F, Point)$
+  for(J = 0; J < length(Point); J++){
+    print([J + 1])$
+    print(Point[J])$
+    print(" ")$
+    print(Kai[J])$
+    print(" ")$
+  }
+  if(Point != []){
+    Error = calculation_error(CoodinateSet[I], Kai[0]);
+    ErrorSet = append(ErrorSet, [Error]);
+  }
+  print("----------------------")$
+}
+
+ErrorSetSize = length(ErrorSet);
+EA = calculation_error_average(ErrorSet);
+
+ctrl("cputime", 0)$
+
+end$
