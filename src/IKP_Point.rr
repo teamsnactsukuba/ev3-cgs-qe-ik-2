@@ -6,15 +6,15 @@
 load("Segment.rr")$
 load("MainQE.rr")$
 
-def ikp_point(CGS, Para, Vari, Jun, Coord){
-  RealCGS = generate_realcgs(CGS, Para, Jun); // Extract non-empty segments over the real number field
+def ikp_point(CGS, Param, Var, Jun, Coord){
+  RealCGS = generate_realcgs(CGS, Param, Jun); // Extract non-empty segments over the real number field
   G = cgs_choose(RealCGS, Coord); // Choose the Groenber basis in the corresponding segment for the given coordinate
-  New = newmainqe(G, Vari); // Verification of the existence of a real root
+  New = newmainqe(G, Var); // Verification of the existence of a real root
   if(New == []){
     return New;
   }else{
     if(New == 0){
-      KaiSet = nonzeroideal_ikp(G, Vari); // Process for the case when the ideal is not zero dimensional
+      KaiSet = nonzeroideal_ikp(G, Var); // Process for the case when the ideal is not zero dimensional
     }else{
       KaiSet = varisolve(New); // Solving the inverse kinematic equation
     }
@@ -23,13 +23,13 @@ def ikp_point(CGS, Para, Vari, Jun, Coord){
 }
 
 // Process for the case when the ideal is not zero 
-def nonzeroideal_ikp(G, Vari){
+def nonzeroideal_ikp(G, Var){
   GSize = length(G);
-  VariSize = length(Vari);
+  VarSize = length(Var);
   KaiSet = [];
   for(J = 0; J < GSize; J++){
-    for(K = 0; K < VariSize; K++){
-      if(G[J] == Vari[K]^2 + Vari[K+1]^2 - 1){
+    for(K = 0; K < VarSize; K++){
+      if(G[J] == Var[K]^2 + Var[K+1]^2 - 1){
         Vars = vars(G[J]);
       }
       K = K + 2;
@@ -54,11 +54,11 @@ def nonzeroideal_ikp(G, Vari){
 }
 
 // Extract non-empty segments over the real number
-def generate_realcgs(CGS, Para, Jun){
+def generate_realcgs(CGS, Param, Jun){
   CGSSize = length(CGS)$
   RealCGS = []$
   for(I = 0; I < CGSSize; I++){
-    Segment = segment(CGS[I][0][0], CGS[I][0][1], Para, Jun)$ 
+    Segment = segment(CGS[I][0][0], CGS[I][0][1], Param, Jun)$ 
     if(Segment != []){
       RealCGS = append(RealCGS, [CGS[I]])$
     }
@@ -89,8 +89,8 @@ def cgs_choose(CGS, Coord){
 }
 
 // Verification of the existence of a real root
-def newmainqe(Set, Vari){
-  /* G = gr(Set, Vari, 2)$ */
+def newmainqe(Set, Var){
+  /* G = gr(Set, Var, 2)$ */
   G = Set;
   if(G == []){
     return 1;
@@ -98,9 +98,9 @@ def newmainqe(Set, Vari){
     if(G == [1]){
       return [];
     }else{
-      IdealCheck = zerodimideal_check(G, Vari); 
+      IdealCheck = zerodimideal_check(G, Var); 
       if(IdealCheck == 1){
-        Kai = generate_kai(G, 1, Vari); // Computing the characteristic polynomial
+        Kai = generate_kai(G, 1, Var); // Computing the characteristic polynomial
         Count = eigen_num(Kai); //  Counting ((the number of positive eigenvalues) - (the number of negative eigenvalues))
         if(Count > 0){
           return G;
