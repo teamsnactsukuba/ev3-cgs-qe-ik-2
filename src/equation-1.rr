@@ -21,3 +21,5 @@ Param = [x, y, z]$
 
 // Lexicographic order is used for computing Groebner basis
 Ord = 2$
+
+end$
