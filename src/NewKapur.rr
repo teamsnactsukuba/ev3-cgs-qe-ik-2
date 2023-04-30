@@ -1,4 +1,7 @@
-/* 実数体上のKapurのCGSアルゴリズム */
+// NewKapur.rr
+// A program for Quantifier Elimination using Comprehensive Gröbner Systems
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
 
 /* Element∈Set かを確認 */
 def memberof(Element, Set){
@@ -195,3 +198,5 @@ def zero_dimcheck(Set, Poly, Vari){
     return 0;
    }
 }
+
+end$
