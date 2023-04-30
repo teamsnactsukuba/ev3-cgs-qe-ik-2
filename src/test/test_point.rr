@@ -22,13 +22,13 @@ def calculation_error_average(ErrorSet){
 }
 
 CGS = bload("../F1_CGS.dat")$
-CoodinateSet = bload("../Coodinate10.dat")$
+CoordinateSet = bload("../Coordinate10.dat")$
 ErrorSet = [];
 
 for(I = 0; I < 100; I++){
-  print(CoodinateSet[I])$
+  print(CoordinateSet[I])$
   print("")$
-  Point = ikp_point(CGS, Param, Var, Ord, CoodinateSet[I])$
+  Point = ikp_point(CGS, Param, Var, Ord, CoordinateSet[I])$
   Kai = kai_check(F1, Point)$
   for(J = 0; J < length(Point); J++){
     print([J + 1])$
@@ -38,7 +38,7 @@ for(I = 0; I < 100; I++){
     print(" ")$
   }
   if(Point != []){
-    Error = calculation_error(CoodinateSet[I], Kai[0]);
+    Error = calculation_error(CoordinateSet[I], Kai[0]);
     ErrorSet = append(ErrorSet, [Error]);
   }
   print("----------------------")$
