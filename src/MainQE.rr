@@ -1,4 +1,7 @@
-/* グレブナー基底系を用いた限量子消去 */
+// MainQE.rr
+// A program for Quantifier Elimination using Comprehensive Gröbner Systems
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
 
 load("Segment.rr")$
 load("NewKapur.rr")$
@@ -191,22 +194,4 @@ def generate_kai(Set, Poly, Vari){
   return matrix_det(MPoly);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+end$
