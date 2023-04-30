@@ -1,0 +1,197 @@
+/* 実数体上のKapurのCGSアルゴリズム */
+
+/* Element∈Set かを確認 */
+def memberof(Element, Set){
+  Size = length(Set);
+  for(I = 0; I < Size; I++){
+    if(Set[I] == Element){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+/* A∪B */
+def union(A,B){
+  SA = length(A);
+  SB = length(B);
+  NotinB = 0;
+  /* #(A-B) */
+  for (I = 0; I < SA; I++){
+    if ( memberof(A[I], B) == 0)
+      NotinB++;
+  }
+  /* #(A cup B) = #B + #(A-B) */
+  SC = SB + NotinB;
+  C = [];
+  for (K = 0; K < SB; K++){
+    C = append(C, [B[K]]);
+  }
+  for ( I = 0; I < SA; I++){
+    if ( memberof(A[I], B) == 0){
+      C = append(C, [A[I]]);
+      K++;
+      }
+  }
+  return C;
+}
+
+/* 先頭項の集合の生成 */
+def generate_htset(Set, Vari){
+  DpSet = map(dp_ptod, Set, Vari);
+  DpHtSet = map(dp_ht, DpSet); 
+  HtSet = map(dp_dtop, DpHtSet, Vari);
+  return HtSet;
+}
+
+/* Variの各変数のべきとなる元がSetに含まれるかのチェック */
+def vari_beki(Set, Vari){
+  VariSize = length(Vari);
+  SetSize = length(Set);
+  for(I = 0; I < VariSize; I++){
+    Frag = 0;
+    for(J = 0; J < SetSize; J++){
+      if(length(vars(Set[J])) == 1){
+        if(tdiv(Set[J], Vari[I]) != 0){
+          Frag = 1;
+          break;
+        }
+      }
+    }
+    if(Frag == 0){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+/* 代入する集合の生成 */
+def generate_substset(GSet, Vari){
+  DpGSet = map(dp_ptod, GSet, Vari);
+  DpGSetSize = length(DpGSet);
+  SubstSet = [];
+  for(I = 0; I < DpGSetSize; I++){
+    DpHt = dp_ht(DpGSet[I]);
+    Ht = dp_dtop(DpHt, Vari);
+    Hc = dp_hc(DpGSet[I]);
+    DpRest = dp_rest(DpGSet[I]);
+    Rest = dp_dtop(DpRest, Vari);    
+    SubstSet = append(SubstSet, [[Ht, - Rest / Hc]]); 
+  }
+  return SubstSet;
+}
+
+/* 単項式の代入 */
+def msubst(Poly, MA, MB, Vari){
+  DpPoly = dp_ptod(Poly, Vari);
+  NewPoly = 0;
+  while(DpPoly != 0){
+    DpHm = dp_hm(DpPoly);
+    Hm = dp_dtop(DpHm, Vari);
+    X = tdiv(Hm, MA);
+    if(X == 0){
+      NewPoly = NewPoly + Hm;
+    }else{
+      NewPoly = NewPoly + X*MB;
+    }
+    DpPoly = dp_rest(DpPoly);
+  }
+  return NewPoly;
+}
+
+/* 多項式を標準単項式のみで表現する */
+def poly_monomialbase(Poly, Sets, Vari){
+  SetsSize = length(Sets);
+  NewPoly = Poly;
+  X = NewPoly;
+  while(1){
+    for(I = 0; I < SetsSize; I++){
+      NewPoly = msubst(NewPoly, Sets[I][0], Sets[I][1], Vari); /* 単項式の代入 */
+    }
+    if(NewPoly == X){
+      break;
+    }else{
+      X = NewPoly;
+    }
+  }
+  return NewPoly;
+}
+
+/* [係数, 項] の集合の生成 */
+def generate_hchtset(Poly, Vari){
+  HcHt = [];
+  DpPoly = dp_ptod(Poly, Vari);
+  while(DpPoly != 0){
+    Hc = dp_hc(DpPoly);
+    Ht = dp_dtop(dp_ht(DpPoly), Vari);
+    HcHt = append(HcHt, [[Hc, Ht]]);
+    DpPoly = dp_rest(DpPoly);
+  }
+  return HcHt;
+}
+
+/* 標準単項式の計算 */
+def generate_monomialbase(GSet, Vari){
+  DpGSet = map(dp_ptod, GSet, Vari);
+  DpHt = map(dp_ht, DpGSet);
+  MonomialBase = map(dp_dtop, dp_mbase(DpHt), Vari);
+  return MonomialBase;
+}
+
+/* 0次元イデアルであるかのチェック */
+def zerodimideal_check(Set, Vari){
+  /* G = gr(Set, Vari, 2); */
+  HtSet = generate_htset(Set, Vari);
+  return vari_beki(HtSet, Vari); /* Variの各変数のべきとなる元がSetに含まれるかのチェック */
+} 
+
+/* 特性多項式の計算 */
+def generate_characteristic(Set, Poly, Vari){
+  G = gr(Set, Vari, 2);
+  MonomialBase = reverse(generate_monomialbase(G, Vari)); /* 標準単項式の計算 */
+  MonomialBaseSize = length(MonomialBase);
+  SubstSet = generate_substset(G, Vari); /* 代入する集合の生成 */
+  SubstSetSize = length(SubstSet);
+  MPoly = [];
+  for(I = 0; I < MonomialBaseSize; I++){
+    X = MonomialBase[I] * Poly;
+    NewX = poly_monomialbase(X, SubstSet, Vari); /* 多項式を標準単項式のみで表現する */
+    HcHt = generate_hchtset(NewX, Vari); /* [係数, 項] の集合の生成 */
+    HcHtSize = length(HcHt)$
+    M = [];
+    for(J = 0; J < MonomialBaseSize; J++){
+      Frag = 0;
+      for(K = 0; K < HcHtSize; K++){
+        if(MonomialBase[J] == HcHt[K][1]){
+          if(I == J){
+            M = append(M, [HcHt[K][0] - x]);
+          }else{
+            M = append(M, [HcHt[K][0]]);
+          }
+          Frag = 1;
+          bleak;
+        }
+      }
+      if(Frag == 0){
+        if(I == J){
+            M = append(M, [-x]);
+        }else{
+            M = append(M, [0]);
+        }
+      }
+    }
+    MPoly = append(MPoly, [M]);
+  }
+  return pari(det,MPoly);
+}
+
+def zero_dimcheck(Set, Poly, Vari){
+   P = generate_characteristic(Set, Poly, Vari); /* 特性多項式の計算 */
+   Terms = p_terms(Poly, Vari, 2);
+   TermsSize = length(Terms);
+   if(TermsSize == 1){
+    return 1;
+   }else{
+    return 0;
+   }
+}
