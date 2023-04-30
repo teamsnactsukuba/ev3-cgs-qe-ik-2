@@ -30,7 +30,7 @@ def first(ZeroSet, NonzeroSet, Var){
   if(Even == []){
     return ZeroSet;
   }else{
-    Vars = zerovars(Even, Var); /* 0になる変数の抽出 */
+    Vars = extract_zero_vars(Even, Var); // Extract variables to be 0
     if(Vars == [1]){
       return []; /* 実数解が存在しない */
     }else{
@@ -189,11 +189,12 @@ def even_degree_poly(Set, Var){
 //    Set = [P1,...,Pr],
 //    Var = [x1,...,xs],
 // where 
-//    Pj = Pj1 + Pj2 + ... Pjt(j) + Pj0,
+//    Pj = Pj,1 + Pj,2 + ... Pj,t(j) + Pj,0,
 //    Pj0 is a constant and the other Pjl are monomials
 // Output: [Sign(P1), ... , Sign(Pr)], where
-//    Sign(Pj) = [[Sign(Pj1), ..., Sign(Pjt(j))], [Sign(Pj0)]],
-//    Sign(Pj) = {1,-1} 1=positive, -1=negative
+//    Sign(Pj) = [[Sign(Pj,1), ..., Sign(Pj,t(j))], [Sign(Pj,0)]],
+//    Sign(Pj,u) = {1,-1}, 1=positive, -1=negative, for u != 0
+//    Sign(Pj,0) = {1,0,-1}, 1=poisitive, 0=0, -1=negative
 //    Note that Sign(Pj0) (the constant term) is contained in a sparate list
 def signs(Set, Var){
   dp_ord(2);
@@ -236,8 +237,15 @@ def elementeq(Set){
   return 1;
 }
 
-/* 0になる変数の抽出 */
-def zerovars(Set, Var){
+// Extract variables to be 0
+// Input:
+//    Set = [P1,...,Pr]
+//    Var = [x1,...,xs]
+// Output:
+//    Vars = [x'1,...,x't]
+// such that subst(Pj,x'1,0,x'2,0,...,x't,0) = 0
+// if such variables do not exist, return [1]
+def extract_zero_vars(Set, Var){
   Vars = [];
   Signs = signs(Set, Var);
   SignsSize = length(Signs);
@@ -245,8 +253,8 @@ def zerovars(Set, Var){
     CoefSigns = Signs[I][0];
     X = Signs[I][1]; // Sign of the constant term
     if(elementeq(CoefSigns) == 1){
-      if(CoefSigns[0] == X[0]){ // The polynomial never becomes zero for the real numbers
-        return [1]; // Real roots do not exist
+      if(CoefSigns[0] == X[0]){ // All signs of the terms with variables are identical to the sign of the constant
+        return [1]; // The polynomial never becomes zero for the real numbers
       }else{
         if(X[0] == 0){
           Vars = union(Vars, vars(eval(Set[I])));

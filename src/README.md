@@ -34,7 +34,7 @@
     * even_degree_poly(Set, Vari): Extract polynomials consisting of the terms of even degrees
     * signs(Set, Var): Computing signs of the polynomails in Set w.r.t. Var
     * elementeq(Set): Test if all the elements in Set are equal
-    * zerovars(Set, Var): 0になる変数の抽出
+    * extract_zero_vars(Set, Var): Extract variables to be 0
     * zero_subst(Set, Vars): 変数に0を代入
     * two_varideg(Poly): Test if Poly is a univariate polynomial of degree 2
     * discriminant(Poly): Computing the discriminant of quadratic polynomial
