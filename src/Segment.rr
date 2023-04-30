@@ -23,36 +23,38 @@ def segment(ZeroSet, NonZeroSet, Param, Ord){
   return [];
 }
 
-/* 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合) */
+// Eliminate a segment which does not have a real affine variety
+// by detecting parameters = 0 contained in the affine variety
+// (in the case degree of the term is even)
 def first(ZeroSet, NonzeroSet, Var){
   Size = length(ZeroSet);
   Even = even_degree_poly(ZeroSet, Var); // Extract polynomials consisting of terms of even degrees from the Set
-  if(Even == []){
-    return ZeroSet;
-  }else{
+  if(Even == []) {
+    return ZeroSet; // Use ZeroSet in the following computation
+  } else {
     Vars = extract_zero_vars(Even, Var); // Extract variables to be 0
-    if(Vars == [1]){
-      return []; /* 実数解が存在しない */
-    }else{
-      if(Vars == []){
-        return ZeroSet; /* 0になる変数が存在しない */
+    if(Vars == [1]) {
+      return []; // No real zeros exists in the polynomials in ZeroSet
+    } else {
+      if(Vars == []) {
+        return ZeroSet; // There are no variables those have to be 0 here, so use ZeroSet in the following computation
       }
     }
   }
-  NewZeroSet = zero_subst(ZeroSet, Vars); /* 0になる分割部の0になる変数に0を代入 */
+  NewZeroSet = zero_subst(ZeroSet, Vars); // Substitute zeros to variables to be 0
   NewZeroSetSize = length(NewZeroSet);
   for(I = 0; I < NewZeroSetSize; I++){
     if(var(NewZeroSet[I]) == 0){
        if(NewZeroSet[I] != 0){
-         return []; /* 0でない整数のとき分割部は存在しない */
+         return []; // If the constant is not equal to 0, the segment does not have a real affine variety
        }
     }
   }
-  NewNonZeroSet = zero_subst(NonzeroSet, Vars); /* 0にならない分割部の0になる変数に0を代入 */
+  NewNonZeroSet = zero_subst(NonzeroSet, Vars); // Substitute zeros to variables to make the polynomials 0 in ZeroSet
   NewNonZeroSetSize = length(NewNonZeroSet);
   for(I = 0; I < NewNonZeroSetSize; I++){
     if(NewNonZeroSet[I] == 0){
-      return []; /* 0 となるとき分割部は存在しない */
+      return []; // If a polynomial in NewNonZeroSet is not equal to zero, the segment does not have a real affine variety
     }
   }
   return ZeroSet;
@@ -265,13 +267,18 @@ def extract_zero_vars(Set, Var){
   return Vars;
 }
 
-/* 変数に0を代入 */
-def zero_subst(Set, Vars){
+// Substitute zeros to variables in polynomials
+// Input:
+//    Set = [P1,...,Pr]
+//    Var = [x1,...,xs]
+// Output
+//    [P1(x1=0,...,xs=0),...,Pr(x1=0,...,xs=0)]
+def zero_subst(Set, Vars) {
   VarsSize = length(Vars);
-  if(VarsSize == 0){
+  if(VarsSize == 0) {
     return Set;
-  }else{
-    for(I = 0; I < VarsSize; I++){
+  } else {
+    for (I = 0; I < VarsSize; I++) {
       Set = map(subst, Set, Vars[I], 0);
     }
   }

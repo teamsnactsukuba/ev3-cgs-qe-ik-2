@@ -22,9 +22,9 @@
 
 ## Main files
 
-* Segment.rr: eliminate segment(s) which are not real affine varieties (手順 2)
-    * segment(ZeroSet, NonZeroSet, Param, Ord): eliminate segment(s) which are not real affine varieties
-    * first(ZeroSet, NonzeroSet, Vari): 分割部のうち0とする部分からパラメータの値が明らかに求まる場合(変数の次数が偶数の場合)
+* Segment.rr: eliminate segment(s) which does not have real affine varieties (手順 2)
+    * segment(ZeroSet, NonZeroSet, Param, Ord): Eliminate segment(s) which are not real affine varieties
+    * first(ZeroSet, NonzeroSet, Var): Eliminate a segment that does not have a real affine variety by detecting parameters = 0 contained in the affine variety (in the case degree of the term is even)
     * second(Set): In the case ZeroSet contains a univariate polynomial of degree 2
     * third(Set): In the case ZeroSet contains a univariate polynomial of degree > 2
     * union(A,B): A union B
@@ -35,7 +35,7 @@
     * signs(Set, Var): Computing signs of the polynomails in Set w.r.t. Var
     * elementeq(Set): Test if all the elements in Set are equal
     * extract_zero_vars(Set, Var): Extract variables to be 0
-    * zero_subst(Set, Vars): 変数に0を代入
+    * zero_subst(Set, Vars): Substitute zeros to variables in polynomials
     * two_varideg(Poly): Test if Poly is a univariate polynomial of degree 2
     * discriminant(Poly): Computing the discriminant of quadratic polynomial
     * coefset(Poly): Computing the list of the coefficients of Poly
