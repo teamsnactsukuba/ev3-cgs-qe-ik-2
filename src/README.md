@@ -30,31 +30,43 @@
 
 ## Main files and functions
 
-### Segment.rr: eliminate segment(s) which does not have real affine varieties (Step 2)
+### IKP_Point.rr: An algorithm for Solving inverse kinematic problem (Steps 2--5)
+
+* ikp_point(CGS, Param, Var, Ord, Coordinate): 逆運動学問題を解くアルゴリズム
+    * generate_realcgs(CGS, Para, Jun) : 実数上で空でない分割部のCGSの抽出
+    * cgs_choose(CGS, Coordinate) : グレブナー基底の決定
+    * newmainqe(Set, Vari) : 実根の存在判定
+    * varisolve(Set), main_varisolve(Poly, Kai) : 変数の解の計算
+        * zeroset_subst(Set, Coordinate) : 0になる分割部の代入のチェック
+        * nonzeroset_subst(Set, Coordinate) : 0にならない分割部の代入のチェック
+        * eigen_num(CPoly) : 正の固有値の個数-符の固有値の個数
+        * nonzeroideal_ikp(G, Vari) : グレブナー基底が0次元イデアルでないときの処理
+
+### Segment.rr: An algorithm for eliminating segment(s) which does not have real affine varieties (Step 2)
 
 * segment(ZeroSet, NonZeroSet, Param, Ord): Eliminate segment(s) which are not real affine varieties
-* first(ZeroSet, NonzeroSet, Var): Eliminate a segment that does not have a real affine variety by detecting parameters = 0 contained in the affine variety (in the case degree of the term is even)
-* second(Set): In the case ZeroSet contains a univariate polynomial of degree 2
-* third(Set): In the case ZeroSet contains a univariate polynomial of degree > 2
-* union(A,B): A union B
-* memberof(Element, Set): Test if the Element is a member of the Set
-* iseven(Number): Test if the number is even
-* even_degree_term(Term): Test if the monomial has even degree w.r.t. all the variables
-* even_degree_poly(Set, Vari): Extract polynomials consisting of the terms of even degrees
-* signs(Set, Var): Computing signs of the polynomails in Set w.r.t. Var
-* elementeq(Set): Test if all the elements in Set are equal
-* extract_zero_vars(Set, Var): Extract variables to be 0
-* zero_subst(Set, Vars): Substitute zeros to variables in polynomials
-* two_varideg(Poly): Test if Poly is a univariate polynomial of degree 2
-* discriminant(Poly): Computing the discriminant of quadratic polynomial
-* coefset(Poly): Computing the list of the coefficients of Poly
-* max(Set): Extract the maximum value in Set
-* signs_change(Set): Counting the number of sign changes of Set
-* sturm_generate(Poly): Generating the Sturm sequence
-* root_bound(Poly): Computing a bound on all the roots of Poly (Cauchy's bound)
-* sign_limit(Poly): Signs of the polynomial at [-Infinity, +Infinity]
-* three_varideg(Poly): Test if Poly is a univariate polynomial of degree >= 3
-* sturm(Poly): Real root counting with the Sturm's method
+    * first(ZeroSet, NonzeroSet, Var): Eliminate a segment that does not have a real affine variety by detecting parameters = 0 contained in the affine variety (in the case degree of the term is even)
+    * second(Set): In the case ZeroSet contains a univariate polynomial of degree 2
+    * third(Set): In the case ZeroSet contains a univariate polynomial of degree > 2
+    * union(A,B): A union B
+    * memberof(Element, Set): Test if the Element is a member of the Set
+    * iseven(Number): Test if the number is even
+    * even_degree_term(Term): Test if the monomial has even degree w.r.t. all the variables
+    * even_degree_poly(Set, Vari): Extract polynomials consisting of the terms of even degrees
+    * signs(Set, Var): Computing signs of the polynomails in Set w.r.t. Var
+    * elementeq(Set): Test if all the elements in Set are equal
+    * extract_zero_vars(Set, Var): Extract variables to be 0
+    * zero_subst(Set, Vars): Substitute zeros to variables in polynomials
+    * two_varideg(Poly): Test if Poly is a univariate polynomial of degree 2
+    * discriminant(Poly): Computing the discriminant of quadratic polynomial
+    * coefset(Poly): Computing the list of the coefficients of Poly
+    * max(Set): Extract the maximum value in Set
+    * signs_change(Set): Counting the number of sign changes of Set
+    * sturm_generate(Poly): Generating the Sturm sequence
+    * root_bound(Poly): Computing a bound on all the roots of Poly (Cauchy's bound)
+    * sign_limit(Poly): Signs of the polynomial at [-Infinity, +Infinity]
+    * three_varideg(Poly): Test if Poly is a univariate polynomial of degree >= 3
+    * sturm(Poly): Real root counting with the Sturm's method
 
 ## Data files
 
