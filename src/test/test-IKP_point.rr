@@ -1,3 +1,8 @@
+// test-IKP_Point.rr
+// Testing ikp_point
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
+
 load("equation-1.rr")$
 load("IKP_Point.rr")$
 load("Test.rr")$
