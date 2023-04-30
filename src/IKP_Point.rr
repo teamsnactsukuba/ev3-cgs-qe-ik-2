@@ -116,7 +116,6 @@ def newmainqe(Set, Var){
 }
 
 // Solving the inverse kinematic equation
-
 def varisolve(Set){
   SetSize = length(Set);
   KaiSet = [];
@@ -168,7 +167,7 @@ def main_varisolve(Poly, Kai){
   return ASet;
 }
 
-// A zero verification of the affine manifold
+// A zero verification of the affine variety
 def zeroset_subst(Set, Coord){
   SetSize = length(Set);
   Frag = 1;
@@ -187,7 +186,7 @@ def zeroset_subst(Set, Coord){
   }
 }
 
-// A nonzero verification of the affine manifold
+// A nonzero verification of the affine variety
 def nonzeroset_subst(Set, Coord){
   SetSize = length(Set);
   CoordSize = length(Coord);
