@@ -50,6 +50,10 @@ def first(ZeroSet, NonzeroSet, Var){
        }
     }
   }
+  /*
+
+  This routine might eliminate too many segments. Check later.
+
   NewNonZeroSet = zero_subst(NonzeroSet, Vars); // Substitute zeros to variables to make the polynomials 0 in ZeroSet
   NewNonZeroSetSize = length(NewNonZeroSet);
   for(I = 0; I < NewNonZeroSetSize; I++){
@@ -57,6 +61,7 @@ def first(ZeroSet, NonzeroSet, Var){
       return []; // If a polynomial in NewNonZeroSet is not equal to zero, the segment does not have a real affine variety
     }
   }
+  */
   return ZeroSet;
 }
 
