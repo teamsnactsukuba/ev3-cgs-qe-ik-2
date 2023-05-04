@@ -75,7 +75,7 @@ def cgs_choose(CGS, Coord){
     S = SG[0];
     G = SG[1];
     ZeroSet = S[0];
-    ZeroSetCheck = zeroset_subst(ZeroSet, Coord); // a zero verification of the affine manifold
+    ZeroSetCheck = zeroset_subst(ZeroSet, Coord); // a zero verification of the affine variety
     if(ZeroSetCheck == 1){
       NonZeroSet = S[1];
       NonZeroSetCheck = nonzeroset_subst(NonZeroSet, Coord); // a nonzero verification of the affine manifold
