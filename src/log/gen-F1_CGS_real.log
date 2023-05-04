@@ -33,7 +33,6 @@ http://www.math.kobe-u.ac.jp/OpenXM/Current/doc/index-doc.html
 [2077] load("gen-F1_CGS_real.rr")$
 redeclaration of find_base_data
 2e-06sec(9.537e-07sec)
-0.02484sec(0.03434sec)
-0.01683sec(0.01817sec)
-[2354] length(F1_CGS_real);
-16
+0.02216sec(0.02256sec)
+0.01575sec(0.01581sec)
+[2354] 
