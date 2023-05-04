@@ -1,0 +1,59 @@
+// test-IKP_Point.rr
+// Testing ikp_point
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
+
+load("equation-1.rr")$
+load("IKP_Point.rr")$
+load("Test.rr")$
+ctrl("cputime", 1)$
+
+def calculation_error(Coodinate, Kai){
+  X_error = Coodinate[0] - Kai[0];
+  Y_error = Coodinate[1] - Kai[1];
+  Z_error = Coodinate[2] - Kai[2];
+  Error = eval(((X_error)^2 + (Y_error)^2 + (Z_error)^2)^(1/2));
+  return Error;
+}
+
+def calculation_error_average(ErrorSet){
+  ErrorSetSize = length(ErrorSet);
+  E = 0;
+  for(I = 0; I < ErrorSetSize; I++){
+    E = E + ErrorSet[I];
+  }
+  EA = eval(E / ErrorSetSize);
+  return EA;
+}
+
+CGS = bload("../F1_CGS.dat")$
+// CoordinateSet = bload("../Coordinate10.dat")$
+load("Old-Coordinate-01.rr")$
+ErrorSet = [];
+
+for(I = 0; I < 100; I++){
+  print(CoordinateSet[I])$
+  print("")$
+  Point = ikp_point(CGS, Param, Var, Ord, CoordinateSet[I])$
+  Kai = kai_check(F1, Point)$
+  for(J = 0; J < length(Point); J++){
+    print([J + 1])$
+    print(Point[J])$
+    print(" ")$
+    print(Kai[J])$
+    print(" ")$
+  }
+  if(Point != []){
+    Error = calculation_error(CoordinateSet[I], Kai[0]);
+    ErrorSet = append(ErrorSet, [Error]);
+  }
+  print("----------------------")$
+}
+ctrl("cputime", 0)$
+
+print("The number of feasible solutions: ", 0)$
+ErrorSetSize = length(ErrorSet);
+print("The average of errors: ", 0)$
+EA = calculation_error_average(ErrorSet);
+
+end$
