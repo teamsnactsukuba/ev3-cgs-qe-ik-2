@@ -1,0 +1,13 @@
+// test-IKP_Point-old-script.rr
+// A test script for the test with experiment-IKP_point-old.rr
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
+
+Filebody = "experiment-IKP_point-old-"$
+Timecode = rtostr(currenttime())$
+Ext = ".log"$
+Logfile = Filebody + Timecode + Ext$
+output(Logfile)$
+load("experiment-IKP_point-old.rr")$
+output()$
+end$

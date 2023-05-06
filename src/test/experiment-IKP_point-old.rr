@@ -1,0 +1,133 @@
+// test-IKP_Point-old.rr
+// Testing ikp_point with previously tested data
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
+
+load("oh_base.rr")$
+
+load("equation-1.rr")$
+load("IKP_Point.rr")$
+load("Test.rr")$
+// ctrl("cputime", 1)$
+
+def calculation_error(Coodinate, Kai){
+  X_error = Coodinate[0] - Kai[0];
+  Y_error = Coodinate[1] - Kai[1];
+  Z_error = Coodinate[2] - Kai[2];
+  Error = eval(((X_error)^2 + (Y_error)^2 + (Z_error)^2)^(1/2));
+  return Error;
+}
+
+def calculate_average(Set){
+  SetSize = length(Set);
+  E = 0;
+  for(I = 0; I < SetSize; I++){
+    E = E + Set[I];
+  }
+  Average = eval(E / SetSize);
+  return Average;
+}
+
+CGS = bload("../F1_CGS.dat")$
+// CoordinateSet = bload("../Coordinate10.dat")$
+TotalErrorList = []$
+TotalTimeList = []$
+TotalFeasibleSolutionsList = []$
+
+Filebody = "../data/Old-Coordinate-"$
+Fileext = "rr"$
+
+NumIte = 2$
+
+for (K = 0; K < NumIte; K++) {
+    ErrorSet = []$
+    TimeSet = []$
+
+    // Load text data files
+    // Define filename
+
+    Filenumber = ""$
+    if (K < 9) {
+        Filenumber = "0"; + rtostr(K+1)$
+    } 
+    Filenumber = Filenumber + rtostr(K+1)$
+    Filename = Filebody + Filenumber + "." + Fileext$
+    load(Filename);
+
+    print("Test ", 0);
+    print (K, 0);
+    print(": ", 0);
+    print(Filename);
+    print ("");
+    
+    // load("../data/Old-Coordinate-01.rr")$
+
+    for(I = 0; I < 100; I++){
+        print ("Case ",0)$
+        print (I)$
+        // print(CoordinateSet[I])$
+        print("")$
+        Time0 = time()[0];
+        Point = ikp_point(CGS, Param, Var, Ord, CoordinateSet[I])$
+        Time1 = time()[0] - Time0;
+        TimeSet = cons(Time1, TimeSet);
+        // print(Time1);
+        Kai = kai_check(F1, Point)$
+        for(J = 0; J < length(Point); J++){
+            print("Root: ",0)$
+            print(J + 1)$
+            print(Point[J])$
+            print("Coordinate: ")$
+            print(Kai[J])$
+            print(" ")$
+         }
+      if(Point != []){
+        Error = calculation_error(CoordinateSet[I], Kai[0]);
+        ErrorSet = cons(Error, ErrorSet);
+      }
+      print("----------------------")$
+    }
+    // ctrl("cputime", 0)$
+    
+    print("The number of feasible solutions: ", 0)$
+    ErrorSetSize = length(ErrorSet);
+    print(ErrorSetSize);
+    print("The average of errors: ", 0)$
+    EA = calculate_average(ErrorSet);
+    print(EA);
+    print("The average of computing time: ", 0)$
+    AverageTime = calculate_average(TimeSet);
+    print (AverageTime);
+
+    TotalErrorList = cons(EA, TotalErrorList)$
+    TotalTimeList = cons(AverageTime, TotalTimeList)$
+    TotalFeasibleSolutionsList = cons(ErrorSetSize, TotalFeasibleSolutionsList)$
+
+    print("==============")$
+
+    TotalError = calculate_average(TotalErrorList)$
+    TotalTime = calculate_average(TotalTimeList)$
+    TotalFeasibleSolutions = oh_base.iterate(oh_base.sum2, TotalFeasibleSolutionsList)$
+
+}
+
+print("The number of feasible solutions: ", 0)$
+TotalFeasibleSolutions;
+print("The average of errors: ", 0)$
+TotalError;
+print("The average of computing time: ", 0)$
+TotalTime;
+print()$
+print("==============")$
+
+for (K = 0; K < NumIte; K++) {
+    print (rtostr(K+1), 0)$ // Test number
+    print ("," + rtostr(TotalTimeList[K]), 0)$ // Average computing time
+    print ("," + rtostr(TotalErrorList[K]))$ // Average error
+}
+print ("Average", 0)$ // Average of all the tests
+print ("," + rtostr(TotalTime), 0)$ // Average computing time
+print ("," + rtostr(TotalError))$ // Average error
+
+
+end$
