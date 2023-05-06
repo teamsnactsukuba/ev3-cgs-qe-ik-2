@@ -74,5 +74,10 @@
 * F1_CGS_real.dat: The CGS of $\langle F_1\rangle$ for only the segment with real affine varieties
 * F3_CGS.dat: The CGS of $\langle F_3\rangle$
 
-## Subsidiary files
-- 
+# Subsidiary files
+
+## Test.rr: Programs used in the tests
+
+
+
+
