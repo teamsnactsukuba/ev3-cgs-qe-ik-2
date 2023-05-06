@@ -1,4 +1,9 @@
-/* 集合の要素を出力する */
+// Test.rr
+// Programs used in tests
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
+
+// Print the elements in Set
 def test_print(Set){
   for(I = 0; I < length(Set); I++){
     print([I + 1])$
@@ -8,30 +13,30 @@ def test_print(Set){
 }
 
 /* c_1, s_1, c_4, s_4, c_7, s_7 の作成 */
-def generate_cs(ThetaSet, Vari){
+def generate_cs(ThetaSet, Var){
   ThetaSetSize = length(ThetaSet);
-  VariSize = length(Vari);
-  VariSet = [];
+  VarSize = length(Var);
+  VarSet = [];
   Count = 0;
-  for(I = 0; I < VariSize; I){
-    VariSet = append(VariSet, [[Vari[I], dsin(eval(ThetaSet[Count]))]]);
-    VariSet = append(VariSet, [[Vari[I+1], dcos(eval(ThetaSet[Count]))]]);
+  for(I = 0; I < VarSize; I){
+    VarSet = append(VarSet, [[Var[I], dsin(eval(ThetaSet[Count]))]]);
+    VarSet = append(VarSet, [[Var[I+1], dcos(eval(ThetaSet[Count]))]]);
     I = I + 2;
   }
-  return VariSet;
+  return VarSet;
 }
 
 /* 座標の作成 */
-def generate_coodinate(ThetaSet, Vari){
-  VariSet = generate_cs(ThetaSet, Vari);
-  VariSetSize = length(VariSet);
+def generate_coodinate(ThetaSet, Var){
+  VarSet = generate_cs(ThetaSet, Var);
+  VarSetSize = length(VarSet);
   X = -(112*c1*c4*s7 - 16*c1*c4 + 112*c1*s4*c_7 + 136*c_1*s_4 - 44*(2^(1/2))*c_1);
   Y = -(112*s_1*c_4*s_7 - 16*s_1*c_4 + 112*s_1*s_4*c_7 + 136*s_1*s_4 - 44*(2^(1/2))*s_1);
   Z = -(-112*c_4*c_7 - 136*c_4 + 112*s_4*s_7 - 16*s_4 -104 - 44*(2^(1/2)));
-  for(I = 0; I < VariSetSize; I++){
-    X = subst(X, VariSet[I][0], VariSet[I][1]);
-    Y = subst(Y, VariSet[I][0], VariSet[I][1]);
-    Z = subst(Z, VariSet[I][0], VariSet[I][1]);
+  for(I = 0; I < VarSetSize; I++){
+    X = subst(X, VarSet[I][0], VarSet[I][1]);
+    Y = subst(Y, VarSet[I][0], VarSet[I][1]);
+    Z = subst(Z, VarSet[I][0], VarSet[I][1]);
   }
   return [[x, deval(X)], [y, deval(Y)], [z, deval(Z)]];
 }
