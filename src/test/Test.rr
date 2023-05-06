@@ -12,7 +12,7 @@ def test_print(Set){
   }
 }
 
-/* c_1, s_1, c_4, s_4, c_7, s_7 の作成 */
+// Generating c_1, s_1, c_4, s_4, c_7, s_7
 def generate_cs(ThetaSet, Var){
   ThetaSetSize = length(ThetaSet);
   VarSize = length(Var);
@@ -26,7 +26,7 @@ def generate_cs(ThetaSet, Var){
   return VarSet;
 }
 
-/* 座標の作成 */
+// Generate the coordinates by solving forward kinematics problem
 def generate_coodinate(ThetaSet, Var){
   VarSet = generate_cs(ThetaSet, Var);
   VarSetSize = length(VarSet);
@@ -41,7 +41,7 @@ def generate_coodinate(ThetaSet, Var){
   return [[x, deval(X)], [y, deval(Y)], [z, deval(Z)]];
 }
 
-/* 解が正しいかのチェック */
+// Verify the solution
 def kai_check(F, KaiSet){
     KaiSetSize = length(KaiSet);
     Coordinate = [];
@@ -56,7 +56,7 @@ def kai_check(F, KaiSet){
   return Coordinate;
 }
 
-/* θの計算 */
+// Computing theta fro c_i and s_i
 def theta_check(KaiSet){
   KaiSetSize = length(KaiSet);
   ThetaSet = [];
@@ -74,7 +74,7 @@ def theta_check(KaiSet){
   return ThetaSet;  
 }
 
-/* 出力を.datで使える形式に変換 */
+// Transform an output for the use in .dat
 def print_dat(Set){
   print_format(Set|list=[" "," "], sep = " ");
 }
