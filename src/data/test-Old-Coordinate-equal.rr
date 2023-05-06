@@ -1,0 +1,41 @@
+load("taka_base.rr")$
+
+// Load binary data files
+
+OldCoordinateSet = newvect(10)$
+OldCoordinateSet[0] = bload("Old-Coordinate-01.dat")$
+OldCoordinateSet[1] = bload("Old-Coordinate-02.dat")$
+OldCoordinateSet[2] = bload("Old-Coordinate-03.dat")$
+OldCoordinateSet[3] = bload("Old-Coordinate-04.dat")$
+OldCoordinateSet[4] = bload("Old-Coordinate-05.dat")$
+OldCoordinateSet[5] = bload("Old-Coordinate-06.dat")$
+OldCoordinateSet[6] = bload("Old-Coordinate-07.dat")$
+OldCoordinateSet[7] = bload("Old-Coordinate-08.dat")$
+OldCoordinateSet[8] = bload("Old-Coordinate-09.dat")$
+OldCoordinateSet[9] = bload("Old-Coordinate-10.dat")$
+
+Filebody = "Old-Coordinate-"$
+Fileext = "rr"$
+for (I = 0; I < 10; I++) {
+
+    // Load text data files
+    // Define filename
+
+    Filenumber = ""$
+    if (I < 9) {
+        Filenumber = "0"; + rtostr(I+1)$
+    } 
+    Filenumber = Filenumber + rtostr(I+1)$
+    Filename = Filebody + Filenumber + "." + Fileext$
+    load(Filename);
+    print(Filename,0);
+    print(": ",0);
+
+    // Test if the data in .rr and .dat are equal
+
+    print(taka_base_is_equal(CoordinateSet, OldCoordinateSet[I]));
+
+}
+
+
+end$

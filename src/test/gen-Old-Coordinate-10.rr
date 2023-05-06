@@ -10,5 +10,6 @@ P10;
 print("$")$
 print("end$")$
 output()$
+bsave(P10, "Old-Coordinate-10.dat")$
 
 end$
