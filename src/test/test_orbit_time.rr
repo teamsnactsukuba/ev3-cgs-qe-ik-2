@@ -1,0 +1,31 @@
+/* 時間関数tを用いた軌道計画のテスト */
+
+load("equation1.rr")$
+load("IKP_Orbit_Time.rr")$
+load("Test.rr")$
+ctrl("cputime", 1)$
+
+P0 = [10, 40, 80]$ // 初期位置
+Pf = [40, 100, 20]$ // 目標位置
+T = 50$
+S1 = t / T$
+S2 = -(2*t^3/T^3) + (3*t^2/T^2)$
+S3 = (6*t^5/T^5) - (15*t^4/T^4) + (10*t^3/T^3)$
+
+CGS = bload("CGS1.dat")$
+RealCGS = generate_realcgs(CGS, Para, Jun)$
+
+Orbit = ikp_orbit_time(CGS, Para, Vari, Jun, P0, Pf, S3, T)$
+
+end$
+
+test_print(Orbit)$
+
+Cood = []$
+
+for(I = 0; I < length(Orbit); I++){
+  Kai = kai_check(F, Orbit[I]);
+  Cood = append(Cood, Kai[0]);
+}
+
+// print_dat(Cood);
