@@ -14,8 +14,9 @@ S1 = t / T$
 S2 = -(2*t^3/T^3) + (3*t^2/T^2)$
 S3 = (6*t^5/T^5) - (15*t^4/T^4) + (10*t^3/T^3)$
 
-CGS = bload("F1_CGS_real.dat")$
-// RealCGS = generate_realcgs(CGS, Para, Jun)$
+CGS = bload("F1_CGS.dat")$
+//CGS = bload("F1_CGS_real.dat")$
+
 
 ctrl("cputime", 1)$
 Orbit = ikp_trajectory(CGS, Param, Var, Ord, P0, Pf, S3, T)$

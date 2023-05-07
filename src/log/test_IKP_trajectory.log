@@ -10,6 +10,6 @@ helph(); [html help], ox_help(0); ox_help("keyword"); ox_grep("keyword");
 http://www.math.kobe-u.ac.jp/OpenXM/Current/doc/index-doc.html
 [2077] load("test_IKP_trajectory.rr")$
 redeclaration of find_base_data
-1e-06sec(9.537e-07sec)
-0.9434sec(1.192sec)
+1e-06sec(2.146e-06sec)
+1.861sec(2.107sec)
 [2366] 
