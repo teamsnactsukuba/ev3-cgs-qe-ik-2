@@ -1,7 +1,10 @@
-/* 時間関数tを用いた軌道計画のテスト */
+// test-IKP_trajectory.rr
+// Testing ikp_trajectory
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
 
-load("equation1.rr")$
-load("IKP_Orbit_Time.rr")$
+load("equation-1.rr")$
+load("IKP_Trajectory.rr")$
 load("Test.rr")$
 ctrl("cputime", 1)$
 
@@ -12,20 +15,22 @@ S1 = t / T$
 S2 = -(2*t^3/T^3) + (3*t^2/T^2)$
 S3 = (6*t^5/T^5) - (15*t^4/T^4) + (10*t^3/T^3)$
 
-CGS = bload("CGS1.dat")$
-RealCGS = generate_realcgs(CGS, Para, Jun)$
+CGS = bload("F1_CGS_real.dat")$
+// RealCGS = generate_realcgs(CGS, Para, Jun)$
 
-Orbit = ikp_orbit_time(CGS, Para, Vari, Jun, P0, Pf, S3, T)$
+Orbit = ikp_trajectory(CGS, Param, Var, Ord, P0, Pf, S3, T)$
+ctrl("cputime", 0)$
 
 end$
 
 test_print(Orbit)$
 
-Cood = []$
+Joint_series = []$
 
 for(I = 0; I < length(Orbit); I++){
-  Kai = kai_check(F, Orbit[I]);
-  Cood = append(Cood, Kai[0]);
+  Kai = kai_check(F1, Orbit[I]);
+  Joint_series = cons(Kai[0], Joint_series);
 }
+Joint_series = reverse(Joint_series)$
 
-// print_dat(Cood);
+
