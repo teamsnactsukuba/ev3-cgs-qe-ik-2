@@ -80,42 +80,40 @@
 
 ## An algorithm for path and trajectory planning
 
-ロボットアームの手先が直線的な軌道上を初期位置から目標位置に向かって移動すると仮定する. \
+An algorithm for moving the end-effector from the initial position to the final position on a straight path.
 
 ### Definitions
 
 * $p_d = (x, y, z)$: The coordinates of the end-effector
 * $p_0 = (x_0, y_0, z_0)$: The initial position of the end-effector
 * $p_f = (x_f, y_f, z_f)$: The final position of the end-effector
+* $p_d = p_0(1-s) + p_f s$, $0 \le s \le 1$
+    * $s=0$: the initial position 
+    * $s=1$: the final posiiton
 
-このとき, パラメータ $0 \le s \le 1$ を用いて, 次のように表す. 
+### A method for computing path and trajectory planning
 
-* $p_d = p_0(1-s) + p_f s$
+1. For time $t$, express the parameter $s$ by a function of 
+$t$.
+1. For the parameter $s$, the initial position $p_0$, 
+the final position $p_f$, calculate current position 
+$p_d(x_d,y_d,z_d)$.
+1. For $p_d(x_d,y_d,z_d)$, solve the inverse kinematic computation for computing the positions of joints 
+$\theta_1$, $\theta_4$ and $\theta_7$ through
+$c_1,s_1,c_4,s_4,c_7,s_7$.
+If $c_1,s_1,c_4,s_4,c_7,s_7$ do not exist, report that 
+the manipulator is not in feasible position.
 
-$s$ は初期位置で $s = 0$, 目標位置で $s = 1$ の値になる. 
+### An algorithm for computing trajectory
 
-## 時間$t$の関数を用いた軌道計画の解法
-パラメータ $s$ を時間 $t$ の関数で表し, $x_0, y_0, z_0, x_f, y_f, z_f, s, T$ の入力に対して, 変数 $c_1, s_1, c_4, s_4, c_7, s_7$ を求める.  \
-あるパラメータ $s$ に対して, $c_1, s_1, c_4, s_4, c_7, s_7$ が存在しないとき, 軌道上を移動できないことを出力する. \
-$p_d = (x, y, z)$ に対して次が成り立つ.
+1. For $t=0$ として, with $x_0,y_0,z_0$ solve the inverse kinematic problem.
+1. Repeat solving the inverse kinematic problem for $t=1,\dots,T$ and output a series of the joint angles $\theta_1,\theta_4,\theta_7$.
+1. If $c_1,s_1,c_4,s_4,c_7,s_7$ do not exist for a specific $s$, output the trajectory up to that $s$.
 
-  $x = x_0(1-s) + x_fs$ \
-  $y = y_0(1-s) + y_fs$ \
-  $z = z_0(1-s) + z_fs$  
+### An implementation
 
-### アルゴリズムの説明
-以下の手順により逆運動学問題を解く. 
-
-1.  $t = 0$ として, $x_0, y_0, z_0, x_f, y_f, z_f, s$ から $x, y, z$ を求め, 逆運動学問題の解法のアルゴリズムを適用する. 
-2. $t = 1$ として, (1) と同様に逆運動学問題の解法のアルゴリズムを適用する.
-3. これを $t = T$ まで繰り返す. 
-4. $t = 0$ から $t = T$ までの解を出力する. 
-   もし, ある $s$ に対して, $c_1, s_1, c_4, s_4, c_7, s_7$ が存在しないとき, 軌道 $p_d$ 上をロボットアームのエンドエフェクタが移動不可能なことを出力する. 
-
-### アルゴリズムの実装
-
-* IKP_Orbit_Time : 時間tの関数を用いた軌道計画の解法
-  * ikp_orbit_time(CGS, Para, Vari, Jun, P0, Pf, S, T) : 時間tの関数を用いた軌道計画の解法
-  * coodenate_subst(P0, Pf, S) : P0, Pf, s から座標(x,y,z)をを求める
+#### IKP_Trajectory.rr: An algorithm for path and trajectory planning
+* ikp_trajectory(CGS, Parm, Var, Ord, P0, Pf, S, T): main function for path and trajectory planning 
+  * coodenate_subst(P0, Pf, S): Calculate current position of the end-effector $p_d$ from $p_0,p_f,s$ 
 * equation2.rr : 多項式イデアル F, パラメータ Para, 変数 Vari, 項順序 Jun, 初期位置 P0, 目標位置 Pf の定義
 
