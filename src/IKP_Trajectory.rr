@@ -1,8 +1,11 @@
-/* 軌道の逆運動学問題 */
+// IKP_Trajectory.rr
+// A program for computing path and trajectory planning 
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
 
 load("IKP_Point.rr")$
 
-def ikp_orbit_time(CGS, Para, Vari, Jun, P0, Pf, S, T){
+def ikp_trajectory(CGS, Para, Vari, Jun, P0, Pf, S, T){
   VariSet = [];
   for(I = 0; I < T + 1; I++){
     SS = subst(S, t, I);
