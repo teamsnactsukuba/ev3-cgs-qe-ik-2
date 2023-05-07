@@ -37,7 +37,7 @@ TotalFeasibleSolutionsList = []$
 Filebody = "../data/Old-Coordinate-"$
 Fileext = "rr"$
 
-NumIte = 2$
+NumIte = 10$
 
 for (K = 0; K < NumIte; K++) {
     ErrorSet = []$
