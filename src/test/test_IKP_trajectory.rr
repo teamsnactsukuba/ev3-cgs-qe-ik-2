@@ -6,7 +6,6 @@
 load("equation-1.rr")$
 load("IKP_Trajectory.rr")$
 load("Test.rr")$
-ctrl("cputime", 1)$
 
 P0 = [10, 40, 80]$ // 初期位置
 Pf = [40, 100, 20]$ // 目標位置
@@ -18,6 +17,7 @@ S3 = (6*t^5/T^5) - (15*t^4/T^4) + (10*t^3/T^3)$
 CGS = bload("F1_CGS_real.dat")$
 // RealCGS = generate_realcgs(CGS, Para, Jun)$
 
+ctrl("cputime", 1)$
 Orbit = ikp_trajectory(CGS, Param, Var, Ord, P0, Pf, S3, T)$
 ctrl("cputime", 0)$
 
