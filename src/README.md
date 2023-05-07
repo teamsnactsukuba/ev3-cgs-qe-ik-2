@@ -18,7 +18,7 @@
     - $c_1,s_1,c_4,s_4,c_7,s_7$: variables
     - $s$: parameters
 
-## Algorithm
+## An algorithm for inverse kinematic computation
 
 ### Notation
 
@@ -28,9 +28,9 @@
 * Ord: An order of variables used for Gröbner basis computation
 * Coord: The values of parameters $x,y,z$
 
-## Main files and functions
+### Main files and functions
 
-### IKP_Point.rr: An algorithm for Solving inverse kinematic problem (Steps 2--5)
+#### IKP_Point.rr: An algorithm for Solving inverse kinematic problem (Steps 2--5)
 
 * ikp_point(CGS, Param, Var, Ord, Coordinate): 逆運動学問題を解くアルゴリズム
     * generate_realcgs(CGS, Para, Jun) : 実数上で空でない分割部のCGSの抽出
@@ -42,7 +42,7 @@
         * eigen_num(CPoly) : 正の固有値の個数-符の固有値の個数
         * nonzeroideal_ikp(G, Vari) : グレブナー基底が0次元イデアルでないときの処理
 
-### Segment.rr: An algorithm for eliminating segment(s) which does not have real affine varieties (Step 2)
+#### Segment.rr: An algorithm for eliminating segment(s) which does not have real affine varieties (Step 2)
 
 * segment(ZeroSet, NonZeroSet, Param, Ord): Eliminate segment(s) which are not real affine varieties
     * first(ZeroSet, NonzeroSet, Var): Eliminate a segment that does not have a real affine variety by detecting parameters = 0 contained in the affine variety (in the case degree of the term is even)
@@ -68,16 +68,54 @@
     * three_varideg(Poly): Test if Poly is a univariate polynomial of degree >= 3
     * sturm(Poly): Real root counting with the Sturm's method
 
-## Data files
+### Data files
 
 * F1_CGS.dat: The CGS of $\langle F_1\rangle$
 * F1_CGS_real.dat: The CGS of $\langle F_1\rangle$ for only the segment with real affine varieties
 * F3_CGS.dat: The CGS of $\langle F_3\rangle$
 
-# Subsidiary files
+### Subsidiary files
 
-## Test.rr: Programs used in the tests
+#### Test.rr: Programs used in the tests
 
+## An algorithm for path and trajectory planning
 
+ロボットアームの手先が直線的な軌道上を初期位置から目標位置に向かって移動すると仮定する. \
 
+### Definitions
+
+* $p_d = (x, y, z)$: The coordinates of the end-effector
+* $p_0 = (x_0, y_0, z_0)$: The initial position of the end-effector
+* $p_f = (x_f, y_f, z_f)$: The final position of the end-effector
+
+このとき, パラメータ $0 \le s \le 1$ を用いて, 次のように表す. 
+
+* $p_d = p_0(1-s) + p_f s$
+
+$s$ は初期位置で $s = 0$, 目標位置で $s = 1$ の値になる. 
+
+## 時間$t$の関数を用いた軌道計画の解法
+パラメータ $s$ を時間 $t$ の関数で表し, $x_0, y_0, z_0, x_f, y_f, z_f, s, T$ の入力に対して, 変数 $c_1, s_1, c_4, s_4, c_7, s_7$ を求める.  \
+あるパラメータ $s$ に対して, $c_1, s_1, c_4, s_4, c_7, s_7$ が存在しないとき, 軌道上を移動できないことを出力する. \
+$p_d = (x, y, z)$ に対して次が成り立つ.
+
+  $x = x_0(1-s) + x_fs$ \
+  $y = y_0(1-s) + y_fs$ \
+  $z = z_0(1-s) + z_fs$  
+
+### アルゴリズムの説明
+以下の手順により逆運動学問題を解く. 
+
+1.  $t = 0$ として, $x_0, y_0, z_0, x_f, y_f, z_f, s$ から $x, y, z$ を求め, 逆運動学問題の解法のアルゴリズムを適用する. 
+2. $t = 1$ として, (1) と同様に逆運動学問題の解法のアルゴリズムを適用する.
+3. これを $t = T$ まで繰り返す. 
+4. $t = 0$ から $t = T$ までの解を出力する. 
+   もし, ある $s$ に対して, $c_1, s_1, c_4, s_4, c_7, s_7$ が存在しないとき, 軌道 $p_d$ 上をロボットアームのエンドエフェクタが移動不可能なことを出力する. 
+
+### アルゴリズムの実装
+
+* IKP_Orbit_Time : 時間tの関数を用いた軌道計画の解法
+  * ikp_orbit_time(CGS, Para, Vari, Jun, P0, Pf, S, T) : 時間tの関数を用いた軌道計画の解法
+  * coodenate_subst(P0, Pf, S) : P0, Pf, s から座標(x,y,z)をを求める
+* equation2.rr : 多項式イデアル F, パラメータ Para, 変数 Vari, 項順序 Jun, 初期位置 P0, 目標位置 Pf の定義
 
