@@ -1,0 +1,23 @@
+// IKP_trajectory_gen.rr
+// A program for generating trajectory
+// Akira Terui
+// Team SNAC Tsukuba, 2023
+
+def ikp_trajectory_gen(P0, Pf, S, T) {
+    L = [];
+    for(I = 0; I < T + 1; I++) {
+        SS = subst(S, t, I);
+        Coordinate = coordinate_subst(P0, Pf, SS);
+        L = cons(Coordinate, L);
+    }
+    return reverse(L);
+}
+
+def coordinate_subst(P0, Pf, S){
+    X = subst(x0*(1-s)+xf*s, x0, P0[0], xf, Pf[0], s, S);
+    Y = subst(y0*(1-s)+yf*s, y0, P0[1], yf, Pf[1], s, S);
+    Z = subst(z0*(1-s)+zf*s, z0, P0[2], zf, Pf[2], s, S);
+    return [X, Y, Z];
+}
+
+end$

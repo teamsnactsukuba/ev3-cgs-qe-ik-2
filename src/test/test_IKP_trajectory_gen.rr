@@ -1,0 +1,25 @@
+// test-IKP_trajectory_gen.rr
+// Testing IKP_trajectory_gen
+// Akira Terui
+// Team SNAC Tsukuba, 2023
+
+load("IKP_trajectory_gen.rr")$
+load("Test.rr")$
+
+P0 = [10, 40, 80]$ // 初期位置
+Pf = [40, 100, 20]$ // 目標位置
+T = 50$
+S1 = t / T$
+S2 = -(2*t^3/T^3) + (3*t^2/T^2)$
+S3 = (6*t^5/T^5) - (15*t^4/T^4) + (10*t^3/T^3)$
+
+// CGS = bload("F1_CGS_real.dat")$
+// RealCGS = generate_realcgs(CGS, Para, Jun)$
+
+Orbit = ikp_trajectory_gen(P0, Pf, S3, T)$
+
+output("test_IKP_trajectory_data.rr")$
+Orbit;
+output()$
+
+end$
