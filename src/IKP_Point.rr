@@ -22,7 +22,7 @@ def ikp_point(CGS, Param, Var, Jun, Coord){
   return KaiSet;
 }
 
-// Process for the case when the ideal is not zero 
+// Process for the case when the ideal is not zero dimensional
 def nonzeroideal_ikp(G, Var){
   GSize = length(G);
   VarSize = length(Var);
