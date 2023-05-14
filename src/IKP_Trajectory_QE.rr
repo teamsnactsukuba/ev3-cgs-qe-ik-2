@@ -1,0 +1,16 @@
+// IKP_Trajectory_QE.rr
+// A program for computing path and trajectory planning based on CGS-QE method
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
+
+load("IKP_Point.rr")$
+
+/* 限量子消去法を用いた軌道計画 */
+def ikp_trajectory_qe(CGS, Var, Par, Ord){
+  CGSSize = length(CGS);
+  RealCGS = generate_realcgs(CGS, Para, Jun);
+  RealCGSSize = length(RealCGS);
+  return RealCGS;
+}
+
+end$
