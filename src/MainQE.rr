@@ -3,41 +3,52 @@
 // Mizuki Yoshizawa and Akira Terui
 // Team SNAC Tsukuba, 2023
 
-load("Segment.rr")$
-load("NewKapur.rr")$
-load("Kapur.rr")$
+load("mathematica.rr")$
+P = mathematica.start()$
 
-def mainqe(CGS, Vari, Para){
-  CGSSize = length(CGS);
-  for(I = 0; I < CGSSize; I++){
-    SG = CGS[I];
-    G = SG[1];
-    Form = [];
-    Check = grobnerpara_check(G, Para); /* グレブナー基底がパラメータのみで構成されるかのチェック */
-    if(Check == 0){
-      print("グレブナー基底は{0}である")$
-    }else{
-      print("グレブナー基底は{0}でない")$ 
-      IdealCheck = zerodimideal_check(G, Vari); /* 0次元イデアルであるかのチェック */
-      if(IdealCheck == 1){
-        Form = append(Form, [zerodimqe(G, Vari, Para)]);
-      }else{ 
-        print("グレブナー基底は0次元イデアルでない")$
-      }
+/* A \ B */
+def difference(A, B){
+  ASize = length(A);
+  NewSet = [];
+  for(I = 0; I < ASize; I++){
+    if(memberof(A[I], B) == 0){
+      NewSet = append(NewSet, [A[I]]);
     }
   }
-  return Form;
+  return NewSet;
 }
 
-def zerodimqe(Set, Vari, Para){
-  Check = grobnerpara_check(Set, Para); /* グレブナー基底がパラメータのみで構成されるかのチェック */
-  if(Check == 0){
-    Form = [];
-  }else{
-    Form = generate_kai(Set, 1, Vari);
-  }
-  return Form;
-}
+// def mainqe(CGS, Vari, Para){
+//   CGSSize = length(CGS);
+//   for(I = 0; I < CGSSize; I++){
+//     SG = CGS[I];
+//     G = SG[1];
+//     Form = [];
+//     Check = grobnerpara_check(G, Para); /* グレブナー基底がパラメータのみで構成されるかのチェック */
+//     if(Check == 0){
+//       print("グレブナー基底は{0}である")$
+//     }else{
+//       print("グレブナー基底は{0}でない")$ 
+//       IdealCheck = zerodimideal_check(G, Vari); /* 0次元イデアルであるかのチェック */
+//       if(IdealCheck == 1){
+//         Form = append(Form, [zerodimqe(G, Vari, Para)]);
+//       }else{ 
+//         print("グレブナー基底は0次元イデアルでない")$
+//       }
+//     }
+//   }
+//   return Form;
+// }
+
+// def zerodimqe(Set, Vari, Para){
+//   Check = grobnerpara_check(Set, Para); /* グレブナー基底がパラメータのみで構成されるかのチェック */
+//   if(Check == 0){
+//     Form = [];
+//   }else{
+//     Form = generate_kai(Set, 1, Vari);
+//   }
+//   return Form;
+// }
 
 
 /* 0次元イデアルであるかのチェック */
@@ -70,7 +81,6 @@ def grobnerpara_check(Set, Para){
 
 /* 代入する集合の生成 */
 def generate_substset(GSet, Vari){
-  GSet = map(eval, GSet);
   DpGSet = map(dp_ptod, GSet, Vari);
   DpGSetSize = length(DpGSet);
   SubstSet = [];
@@ -119,6 +129,35 @@ def poly_monomialbase(Poly, Sets, Vari){
     }
   }
   return NewPoly;
+}
+
+/* Variの各変数のべきとなる元がSetに含まれるかのチェック */
+def vari_beki(Set, Vari){
+  VariSize = length(Vari);
+  SetSize = length(Set);
+  for(I = 0; I < VariSize; I++){
+    Frag = 0;
+    for(J = 0; J < SetSize; J++){
+      if(length(vars(Set[J])) == 1){
+        if(tdiv(Set[J], Vari[I]) != 0){
+          Frag = 1;
+          break;
+        }
+      }
+    }
+    if(Frag == 0){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+/* 先頭項の集合の生成 */
+def generate_htset(Set, Vari){
+  DpSet = map(dp_ptod, Set, Vari);
+  DpHtSet = map(dp_ht, DpSet); 
+  HtSet = map(dp_dtop, DpHtSet, Vari);
+  return HtSet;
 }
 
 /* [係数, 項] の集合の生成 */
@@ -171,8 +210,18 @@ def generate_expmatrix(Base, Poly, Subst, Vari){
   return EM;
 }
 
-/* 固有多項式の計算 */
-def generate_kai(Set, Poly, Vari){
+/* トレースの計算 */
+def trace(Sets){
+  SetsSize = length(Sets);
+  Trace = 0;
+  for(I = 0; I < SetsSize; I++){
+    Trace = Trace + Sets[I][I];
+  }
+  return Trace;
+}
+
+/* 実対称行列Mの計算 */
+def generate_rsm(Set, Poly, Vari){
   /* G = gr(Set, Vari, 2)$ */
   MonomialBase = generate_monomialbase(Set, Vari); /* 剰余環の基底の計算 */
   MonomialBaseSize = length(MonomialBase);
@@ -182,7 +231,7 @@ def generate_kai(Set, Poly, Vari){
     M = [];
     for(J = 0; J < MonomialBaseSize; J++){
       EM = generate_expmatrix(MonomialBase, MonomialBase[I] * MonomialBase[J] * Poly, SubstSet, Vari); /* 表現行列の計算 */
-      Q = pari(trace, EM); /* トレースの計算 */
+      Q = trace(EM); /* トレースの計算 */
       if(I == J){
         M = append(M, [Q - x]);
       }else{
@@ -191,7 +240,207 @@ def generate_kai(Set, Poly, Vari){
     }
     MPoly = append(MPoly, [M]);
   }
-  return matrix_det(MPoly);
+  return MPoly;
 }
 
-end$
+/* 固有多項式の計算 */
+def generate_characteristic(Set, Poly, Vari){
+  M = generate_rsm(Set, Poly, Vari);
+  return matrix_det(M);
+}
+
+/* 固有多項式の計算(mathematica) */
+def generate_characteristic_math(Set, Poly, Vari){
+  M = generate_rsm(Set, Poly, Vari);
+  Str = "CharacteristicPolynomial" + "[" + mathematica.rtomstr(M) + "," + mathematica.rtomstr(x) + "]";
+  ox_execute_string(P,Str);
+  A = ox_pop_cmo(P);
+  AA = mathematica.tree_to_string(A);
+  Characteristic = eval_str(AA);
+  return Characteristic;
+}
+
+/* sの範囲の計算 */
+def generate_range(Poly){
+  SpSm = generate_spsm(Poly); /* S+, S- の作成 */
+  Sp = SpSm[0];
+  Sm = SpSm[1];
+  SignFormSet = generate_signform(Sp, P); /* 符号の変化と不等式の生成 */
+  Range = []$
+  while(SignFormSet != []){
+    SignForm = car(SignFormSet);
+    Signp = SignForm[0];
+    Signm = generate_signm(Signp, Sm); /* S-の符号の生成 */
+    Countp = count_sign(Signp); /* 符号の変化の数の計算 */
+    Countm = count_sign(Signm); /* 符号の変化の数の計算 */
+    Form = SignForm[1]; 
+    if(Countp != Countm){
+      Reduce = reduce_math(Form, P); /* 不等式の計算 */
+      Range = append(Range, [Reduce]);
+    }
+    SignFormSet = cdr(SignFormSet);
+  }
+  Range;
+}
+
+/* S+の列, [(-1)^d]の列(S-の符号の列の生成に用いる)の生成 */
+def generate_spsm(Poly){
+  H = coef(Poly, deg(Poly, x));
+  Poly = Poly / H;
+  D = deg(Poly, x);
+  Sp = [1];
+  Sm = [(-1)^D];
+  DpPoly = dp_rest(dp_ptod(Poly, [x]));
+  while(DpPoly != 0){
+    HC = dp_hc(DpPoly);
+    HT = dp_ht(DpPoly);
+    Deg = deg(dp_dtop(HT, [x]), x);
+    Sp = append(Sp, [HC]);
+    Sm = append(Sm, [(-1)^Deg]);
+    DpPoly = dp_rest(DpPoly);
+  }
+  return [Sp, Sm];
+}
+
+/* 符号の変化と不等式の生成 */
+def generate_signform(S, P){
+  SignForm = [[[S[0]],["0 < s < 1"]]]$
+  SSize = length(S);
+  for(I = 1; I < SSize; I++){
+    SignForm = generate_formula(SignForm, S[I], P); /* 不等式の生成 */
+  }
+  return SignForm;
+}
+
+/* 不等式の生成 */
+def generate_formula(SignForm, S, P){
+  NewSignForm = [];
+  SignFormSize = length(SignForm);
+  for(I = 0; I < SignFormSize; I++){
+    Form1 = append(SignForm[I][1], [rtostr(S) + " > 0"]);
+    Reduce = reduce_math(Form1, P); /* 不等式の計算 */
+    if(Reduce != "False"){
+      NewSignForm = append(NewSignForm, [[append(SignForm[I][0], [1]), Form1]]);
+    }
+    Form2 = append(SignForm[I][1], [rtostr(S) + " < 0"]);
+    Reduce = reduce_math(Form2, P); /* 不等式の計算 */
+    if(Reduce != "False"){
+      NewSignForm = append(NewSignForm, [[append(SignForm[I][0], [-1]), Form2]]);
+    }
+    Form3 = append(SignForm[I][1], [rtostr(S) + " == 0"]);
+    Reduce = reduce_math(Form3, P); /* 不等式の計算 */
+    if(Reduce != "False"){
+      NewSignForm = append(NewSignForm, [[append(SignForm[I][0], [0]), Form3]]);
+    }
+  }
+  return NewSignForm;
+}
+
+/* 不等式の計算 */
+def reduce_math(Form, P){
+  Str = "N[Reduce" + "[" + mathematica.rtomstr(Form) + "," + mathematica.rtomstr(s) + "]]";
+  ox_execute_string(P,Str)$
+  A = ox_pop_cmo(P)$
+  AA = mathematica.tree_to_string(A);
+  return AA;
+}
+
+/* S-の符号の列の生成 */
+def generate_signm(Signp, Sm){
+  Signm = [];
+  SmSize = length(Sm);
+  for(I = 0; I < SmSize; I++){
+    if(Sm[I] == 1){
+      Signm = append(Signm, [Signp[I]]);
+    }else{
+      Signm = append(Signm, [-Signp[I]]);
+    }
+  }
+  return Signm;
+}
+
+/* 符号の変化の数の計算 */
+def count_sign(Sign){
+  Count = 0;
+  S = Sign[0];
+  SignSize = length(Sign);
+  for(I = 1; I < SignSize; I++){
+    if(Sign[I] == -S){
+      Count = Count + 1;
+    }
+  S = Sign[I];
+  }
+  return Count;
+}
+
+def zerodimqe(Set, Vari, Para){
+  Check = grobnerpara_check(Set, Para); /* グレブナー基底がパラメータのみで構成されるかのチェック */
+  if(Check == 0){
+    Range = [];
+  }else{
+    Chara = generate_characteristic_math(Set, 1, Vari);
+    Range = generate_range(Chara);
+  }
+  return Range;
+}
+
+def mainqe(CGS, Vari, Para){
+  CGSSize = length(CGS);
+  for(I = 0; I < CGSSize; I++){
+    SG = CGS[I];
+    G = SG[1];
+    Range = [];
+    Check = grobnerpara_check(G, Para); /* グレブナー基底がパラメータのみで構成されるかのチェック */
+    if(Check == 0){
+      Range = append(Range, [SG]);
+    }else{
+      IdealCheck = zerodimideal_check(G, Vari); /* 0次元イデアルであるかのチェック */
+      if(IdealCheck == 1){
+        Range = append(Range, [zerodimqe(G, Vari, Para)]);
+      }else{ 
+        GVari = nonzeroideal(G, Vari);
+        G = GVari[0];
+        Vari = GVari[1];
+        Range = append(Range, [zerodimqe(G, Vari, Para)]);
+      }
+    }
+  }
+  return Range;
+}
+
+def nonzeroideal(G, Vari){
+  GSize = length(G);
+  VariSize = length(Vari);
+  for(J = 0; J < GSize; J++){
+    for(K = 0; K < VariSize; K++){
+      if(G[J] == Vari[K]^2 + Vari[K+1]^2 - 1){
+        Vars = vars(G[J]);
+      }
+      K = K + 2;
+    }
+  }
+  VarsSize = length(Vars);
+  for(J = 0; J < length(Vars); J){
+    G = map(subst, G, Vars[J], 0, Vars[J+1], 1);
+    J = J + 2;
+  }
+  G = difference(G,[0]);
+  Vari = difference(Vari, Vars);
+  return [G, Vari];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
