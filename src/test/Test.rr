@@ -78,3 +78,5 @@ def theta_check(KaiSet){
 def print_dat(Set){
   print_format(Set|list=[" "," "], sep = " ");
 }
+
+end$
