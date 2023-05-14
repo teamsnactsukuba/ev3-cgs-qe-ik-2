@@ -1,0 +1,24 @@
+// equation-4.rr 
+// Akira Terui
+// from equation-2.rr
+// giving the start and the end points of the orbit as P0 and Pf
+
+load("equation-2.rr")$
+
+// Orbit
+P0 = [10, 40, 80]$ // Initial position
+Pf = [40, 100, 20]$ // Goal position
+
+// Generating set of the ideal
+F4 = map(subst, F2, x0, P0[0], y0, P0[1], z0, P0[2], xf, Pf[0], yf, Pf[1], zf, Pf[2])$
+
+// Variables
+Var = [c1, s1, c4, s4, c7, s7]$
+
+// Parameters
+Param = [s]$
+
+// Lexicographic order is used for computing Groebner basis
+Ord = 2$ 
+
+end$
