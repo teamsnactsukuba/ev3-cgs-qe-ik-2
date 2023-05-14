@@ -1,0 +1,22 @@
+// test-IKP_trajectory_qe-4.rr
+// Testing ikp_trajectory_qe
+// Mizuki Yoshizawa and Akira Terui
+// Team SNAC Tsukuba, 2023
+
+load("equation-4.rr")$
+load("Test.rr")$
+load("IKP_Trajectory_QE.rr")$
+load("Segment.rr")$
+ctrl("cputime", 1)$
+
+CGS = bload("F4_CGS.dat")$
+CGSSize = length(CGS)$
+
+RealCGS = generate_realcgs(CGS, Param, Ord)$
+RealCGSSize = length(RealCGS)$
+
+mainqe(RealCGS, Var, Param);
+
+ctrl("cputime", 0)$
+
+end$

@@ -1,0 +1,25 @@
+terui@fermat:~/project/ev3-cgs-qe-ik-2/src/test$ fep asir
+This is Risa/Asir, full GMP Version 20230315 (Kobe Distribution).
+Copyright (C) 1994-2000, all rights reserved, FUJITSU LABORATORIES LIMITED.
+Copyright 2000-2021, Risa/Asir committers, http://www.openxm.org/.
+GC 7.6.12 copyright 1988-2018, H-J. Boehm, A. J. Demers, Xerox, SGI, HP, I. Maidanski.
+Debug windows of ox servers will not be opened. Set Xm_noX=0 to open it.
+OpenXM/Risa/Asir-Contrib $Revision$ (20230107), Copyright 2000-2023, OpenXM.org committers
+helph(); [html help], ox_help(0); ox_help("keyword"); ox_grep("keyword");
+     for help messages (unix version only).
+http://www.math.kobe-u.ac.jp/OpenXM/Current/doc/index-doc.html
+[2077] load("test_IKP_trajectory_qe-4.rr")$
+Debug windows of ox servers will not be opened. Set Xm_noX=0 to open it.
+Module mathematica (to communicate with Mathematica) Version 19991113.
+ mathematica.start, mathematica.tree_to_string, mathematica.n_Eigenvalues, ...
+Starting ox_math.
+ox_math: Portions copyright 2000 Wolfram Research, Inc. 
+See OpenXM/Copyright/Copyright.mathlink for details.
+2e-06sec(3.099e-06sec)
+0.003641sec(0.003641sec)
+2e-06sec(2.146e-06sec)
+0.009469sec(0.009469sec)
+1e-06sec(1.192e-06sec)
+[[[(0)<(s)<(0.756424) , (0.756424)<(s)<(0.993797) , (0.993797)<(s)<(1)],[[s , 0.756424] , [s , 0.993797]]]]
+1.121sec(2.42sec)
+[2262] 
