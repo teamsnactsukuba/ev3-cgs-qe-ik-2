@@ -32,15 +32,15 @@
 
 #### IKP_Point.rr: An algorithm for Solving inverse kinematic problem (Steps 2--5)
 
-* ikp_point(CGS, Param, Var, Ord, Coordinate): 逆運動学問題を解くアルゴリズム
-    * generate_realcgs(CGS, Para, Jun) : 実数上で空でない分割部のCGSの抽出
-    * cgs_choose(CGS, Coordinate) : グレブナー基底の決定
-    * newmainqe(Set, Vari) : 実根の存在判定
-    * varisolve(Set), main_varisolve(Poly, Kai) : 変数の解の計算
-        * zeroset_subst(Set, Coordinate) : 0になる分割部の代入のチェック
-        * nonzeroset_subst(Set, Coordinate) : 0にならない分割部の代入のチェック
-        * eigen_num(CPoly) : 正の固有値の個数-符の固有値の個数
-        * nonzeroideal_ikp(G, Vari) : グレブナー基底が0次元イデアルでないときの処理
+* ikp_point(CGS, Param, Var, Ord, Coordinate): A solver for inverse kinematic problem
+    * generate_realcgs(CGS, Param, Ord): Extract non-empty segments over the real number
+    * cgs_choose(CGS, Coordinate): Choose the Groenber basis in the corresponding segment for the given coordinate
+    * newmainqe(Set, Vari: Verification of the existence of a real root
+    * varisolve(Set), main_varisolve(Poly, Kai): Solving the inverse kinematic equation
+        * zeroset_subst(Set, Coordinate): A zero verification of the affine variety
+        * nonzeroset_subst(Set, Coordinate): A nonzero verification of the affine variety
+        * eigen_num(CPoly): Counting ((the number of positive eigenvalues) - (the number of negative eigenvalues))
+        * nonzeroideal_ikp(G, Var): Process for the case when the ideal is not zero dimensional
 
 #### Segment.rr: An algorithm for eliminating segment(s) which does not have real affine varieties (Step 2)
 
