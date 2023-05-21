@@ -17,6 +17,11 @@
     $(x_f,y_f,z_f)=(40,100,20)$ as the initial and the goal positions of the manipulator
     - $c_1,s_1,c_4,s_4,c_7,s_7$: variables
     - $s$: parameters
+- $F_4=[F_{41},F_{42},F_{43},F_{44},F_{45},F_{46}]$
+    - $F_2$ with putting $(x_0,y_0,z_0)=(10,40,80)$ and 
+    $(x_f,y_f,z_f)=(40,100,20)$ as the initial and the goal positions of the manipulator
+    - $c_1,s_1,c_4,s_4,c_7,s_7$: variables
+    - $s$: parameters
 
 ## An algorithm for inverse kinematic computation
 
@@ -73,6 +78,7 @@
 * F1_CGS.dat: The CGS of $\langle F_1\rangle$
 * F1_CGS_real.dat: The CGS of $\langle F_1\rangle$ for only the segment with real affine varieties
 * F3_CGS.dat: The CGS of $\langle F_3\rangle$
+* F4_CGS.dat: The CGS of $\langle F_4\rangle$
 
 ### Subsidiary files
 
@@ -106,14 +112,25 @@ the manipulator is not in feasible position.
 
 ### An algorithm for computing trajectory
 
-1. For $t=0$ として, with $x_0,y_0,z_0$ solve the inverse kinematic problem.
+1. For $t=0$, with $x_0,y_0,z_0$ solve the inverse kinematic problem.
 1. Repeat solving the inverse kinematic problem for $t=1,\dots,T$ and output a series of the joint angles $\theta_1,\theta_4,\theta_7$.
 1. If $c_1,s_1,c_4,s_4,c_7,s_7$ do not exist for a specific $s$, output the trajectory up to that $s$.
+
+### An algorithm for path planning with the CGS-QE method
+
+1. Put the coordinates of $p_d$ into the system of polynomial equations.
+1. Put the coordinates of $p_0$ and $p_f$ into the 
+system derived in the previous step. Now the system has
+a parameter $s$.
+1. Use MainQE algorithm in the CGS-QE method for verifying the system has a real root for 
+$s\in[0,1]$.
+1. If the above condition is satisfied, call the algorithm for computing trajectory.
 
 ### An implementation
 
 #### IKP_Trajectory.rr: An algorithm for path and trajectory planning
 * ikp_trajectory(CGS, Parm, Var, Ord, P0, Pf, S, T): main function for path and trajectory planning 
   * coodenate_subst(P0, Pf, S): Calculate current position of the end-effector $p_d$ from $p_0,p_f,s$ 
-* equation2.rr : 多項式イデアル F, パラメータ Para, 変数 Vari, 項順序 Jun, 初期位置 P0, 目標位置 Pf の定義
 
+#### MainQE: an implementation of the MainQE algorithm in the CGS-QE method
+* mainqe(CGS, Var, Param): MainQE algorithm
