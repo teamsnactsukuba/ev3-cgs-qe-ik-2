@@ -5,7 +5,7 @@
 
 load("IKP_Point.rr")$
 
-/* 限量子消去法を用いた軌道計画 */
+// Trajectory using CGS-QE (not completed)
 def ikp_trajectory_qe(CGS, Var, Par, Ord){
   CGSSize = length(CGS);
   RealCGS = generate_realcgs(CGS, Para, Jun);

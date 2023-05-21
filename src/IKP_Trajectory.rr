@@ -16,7 +16,7 @@ def ikp_trajectory(CGS, Para, Vari, Jun, P0, Pf, S, T){
   return VariSet;
 }
 
-/* P0, Pf, s から座標を求める */
+// Calculate current position of the end-effector $p_d$ from $p_0,p_f,s$ 
 def coodenate_subst(P0, Pf, S){
   X = subst(x0*(1-s)+xf*s, x0, P0[0], xf, Pf[0], s, S);
   Y = subst(y0*(1-s)+yf*s, y0, P0[1], yf, Pf[1], s, S);

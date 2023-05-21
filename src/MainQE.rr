@@ -51,13 +51,14 @@ def difference(A, B){
 // }
 
 
-/* 0次元イデアルであるかのチェック */
+// Test if Set is zero-dimensional
 def zerodimideal_check(Set, Vari){
   /* G = gr(Set, Vari, 2); */
   HtSet = generate_htset(Set, Vari);
   return vari_beki(HtSet, Vari); /* Variの各変数のべきとなる元がSetに含まれるかのチェック */
 } 
 
+// Test if the elements in Set has only terms in parameters
 /* グレブナー基底がパラメータのみで構成されるかのチェック */
 def grobnerpara_check(Set, Para){
   SetSize = length(Set);
@@ -79,6 +80,7 @@ def grobnerpara_check(Set, Para){
   }
 }
 
+// Generating a set for substitution
 /* 代入する集合の生成 */
 def generate_substset(GSet, Vari){
   DpGSet = map(dp_ptod, GSet, Vari);
@@ -95,6 +97,7 @@ def generate_substset(GSet, Vari){
   return SubstSet;
 }
 
+// Substitution of a monomial
 /* 単項式の代入 */
 def msubst(Poly, MA, MB, Vari){
   DpPoly = dp_ptod(Poly, Vari);
@@ -113,6 +116,7 @@ def msubst(Poly, MA, MB, Vari){
   return NewPoly;
 }
 
+// Express a polynomial with monomial base
 /* 多項式を標準単項式のみで表現する */
 def poly_monomialbase(Poly, Sets, Vari){
   SetsSize = length(Sets);
@@ -131,6 +135,7 @@ def poly_monomialbase(Poly, Sets, Vari){
   return NewPoly;
 }
 
+// Test if a power of the variables in Var belongs to Set
 /* Variの各変数のべきとなる元がSetに含まれるかのチェック */
 def vari_beki(Set, Vari){
   VariSize = length(Vari);
@@ -152,6 +157,7 @@ def vari_beki(Set, Vari){
   return 1;
 }
 
+// Generating the set of head terms
 /* 先頭項の集合の生成 */
 def generate_htset(Set, Vari){
   DpSet = map(dp_ptod, Set, Vari);
@@ -160,6 +166,7 @@ def generate_htset(Set, Vari){
   return HtSet;
 }
 
+// Generating the set of [coefficient, term]
 /* [係数, 項] の集合の生成 */
 def generate_hchtset(Poly, Vari){
   HcHt = [];
@@ -173,6 +180,7 @@ def generate_hchtset(Poly, Vari){
   return HcHt;
 }
 
+// Generating a monomial base
 /* 剰余環の基底の計算 */
 def generate_monomialbase(GSet, Vari){
   GSet = map(eval, GSet);
@@ -182,6 +190,7 @@ def generate_monomialbase(GSet, Vari){
   return reverse(MonomialBase);
 }
 
+// Calculating a multiplication matrix
 /* 表現行列の計算 */
 def generate_expmatrix(Base, Poly, Subst, Vari){
   BaseSize = length(Base);
@@ -210,6 +219,7 @@ def generate_expmatrix(Base, Poly, Subst, Vari){
   return EM;
 }
 
+// Calculating the trace
 /* トレースの計算 */
 def trace(Sets){
   SetsSize = length(Sets);
@@ -220,6 +230,7 @@ def trace(Sets){
   return Trace;
 }
 
+// Calculating a real symmetric matrix M
 /* 実対称行列Mの計算 */
 def generate_rsm(Set, Poly, Vari){
   /* G = gr(Set, Vari, 2)$ */
@@ -243,12 +254,14 @@ def generate_rsm(Set, Poly, Vari){
   return MPoly;
 }
 
+// Calculating the characteristic polynomial
 /* 固有多項式の計算 */
 def generate_characteristic(Set, Poly, Vari){
   M = generate_rsm(Set, Poly, Vari);
   return matrix_det(M);
 }
 
+// Calculating the characteristic polynomial (with Mathematica via OpenXM)
 /* 固有多項式の計算(mathematica) */
 def generate_characteristic_math(Set, Poly, Vari){
   M = generate_rsm(Set, Poly, Vari);
@@ -260,6 +273,7 @@ def generate_characteristic_math(Set, Poly, Vari){
   return Characteristic;
 }
 
+// Calculating the range of s that satisfy the constraints
 /* sの範囲の計算 */
 def generate_range(Poly){
   SpSm = generate_spsm(Poly); /* S+, S- の作成 */
@@ -283,6 +297,7 @@ def generate_range(Poly){
   Range;
 }
 
+// Generating the sequences of S+ and [(-1)^d] (used to generate the sequence S-)
 /* S+の列, [(-1)^d]の列(S-の符号の列の生成に用いる)の生成 */
 def generate_spsm(Poly){
   H = coef(Poly, deg(Poly, x));
@@ -302,6 +317,7 @@ def generate_spsm(Poly){
   return [Sp, Sm];
 }
 
+// Generate a sequence of change of signs
 /* 符号の変化と不等式の生成 */
 def generate_signform(S, P){
   SignForm = [[[S[0]],["0 < s < 1"]]]$
@@ -312,6 +328,7 @@ def generate_signform(S, P){
   return SignForm;
 }
 
+// Generate inequalitys 
 /* 不等式の生成 */
 def generate_formula(SignForm, S, P){
   NewSignForm = [];
@@ -336,6 +353,7 @@ def generate_formula(SignForm, S, P){
   return NewSignForm;
 }
 
+// Reduce a formula using Mathematica via OpenXM
 /* 不等式の計算 */
 def reduce_math(Form, P){
   Str = "N[Reduce" + "[" + mathematica.rtomstr(Form) + "," + mathematica.rtomstr(s) + "]]";
@@ -345,6 +363,7 @@ def reduce_math(Form, P){
   return AA;
 }
 
+// Generate the sequence of S-
 /* S-の符号の列の生成 */
 def generate_signm(Signp, Sm){
   Signm = [];
@@ -359,6 +378,7 @@ def generate_signm(Signp, Sm){
   return Signm;
 }
 
+// Count the change of signs
 /* 符号の変化の数の計算 */
 def count_sign(Sign){
   Count = 0;
@@ -373,6 +393,7 @@ def count_sign(Sign){
   return Count;
 }
 
+// ZeroDimQE algorithm in the CGS-QE method
 def zerodimqe(Set, Vari, Para){
   Check = grobnerpara_check(Set, Para); /* グレブナー基底がパラメータのみで構成されるかのチェック */
   if(Check == 0){
@@ -384,6 +405,7 @@ def zerodimqe(Set, Vari, Para){
   return Range;
 }
 
+// MainQE algorithm in the CGS-QE method
 def mainqe(CGS, Vari, Para){
   CGSSize = length(CGS);
   for(I = 0; I < CGSSize; I++){
