@@ -73,16 +73,7 @@
     * three_varideg(Poly): Test if Poly is a univariate polynomial of degree >= 3
     * sturm(Poly): Real root counting with the Sturm's method
 
-### Data files
 
-* F1_CGS.dat: The CGS of $\langle F_1\rangle$
-* F1_CGS_real.dat: The CGS of $\langle F_1\rangle$ for only the segment with real affine varieties
-* F3_CGS.dat: The CGS of $\langle F_3\rangle$
-* F4_CGS.dat: The CGS of $\langle F_4\rangle$
-
-### Subsidiary files
-
-#### Test.rr: Programs used in the tests
 
 ## An algorithm for path and trajectory planning
 
@@ -134,3 +125,35 @@ $s\in[0,1]$.
 
 #### MainQE: an implementation of the MainQE algorithm in the CGS-QE method
 * mainqe(CGS, Var, Param): MainQE algorithm
+
+## Data files
+
+### System of equations
+
+* equation-1.rr: definition of $F_1$
+* equation-2.rr: definition of $F_2$
+* equation-3.rr: definition of $F_3$
+* equation-4.rr: definition of $F_4$
+
+### CGS
+
+* F1_CGS.dat: The CGS of $\langle F_1\rangle$
+* F1_CGS_real.dat: The CGS of $\langle F_1\rangle$ for only the segment with real affine varieties
+* F3_CGS.dat: The CGS of $\langle F_3\rangle$
+* F4_CGS.dat: The CGS of $\langle F_4\rangle$
+
+## Scripts
+
+* gen-F1_CGS.rr: a script for computing CGS of $\langle F_1\rangle$ and save the result as F1_CGS.rr
+* gen-F1_CGS-nosave.rr a script for computing CGS of $\langle F_1\rangle$
+without saving the result (for benchmark purpose)
+* gen-F1_CGS_real.rr: a script for computing CGS of $\langle F_1\rangle$,
+then choosing segments that exist in the real vector space and save the result as gen-F1_CGS_real.rr
+* gen-F1_CGS_real-nosave.rr: a script for computing CGS of $\langle F_1\rangle$,
+then choosing segments that exist in the real vector space without saving the result (for benchmark purpose)
+* gen-F3_CGS.rr: a script for computing CGS of $\langle F_3\rangle$ and save the result as F3_CGS.rr
+* gen-F4_CGS.rr: a script for computing CGS of $\langle F_3\rangle$ and save the result as F4_CGS.rr
+
+## Subsidiary files
+
+### Test.rr: Programs used in the tests
