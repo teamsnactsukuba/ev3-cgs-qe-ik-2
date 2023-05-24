@@ -39,6 +39,7 @@ Usage in Risa/Asir
 fep asir
 load("test_IKP_trajectory.rr")$
 ```
+A sample log can be found at [../log/IA-64/test_IKP_trajectory.log](../log/IA-64/test_IKP_trajectory.log).
 
 - test_IKP_trajectory-real.rr: generating a trajectory using a CGS whose segments are contained in the real number field
 
@@ -47,3 +48,4 @@ Usage in Risa/Asir
 fep asir
 load("test_IKP_trajectory-real.rr")$
 ```
+A sample log can be found at [../log/IA-64/test_IKP_trajectory-real.log](../log/IA-64/test_IKP_trajectory-real.log).
