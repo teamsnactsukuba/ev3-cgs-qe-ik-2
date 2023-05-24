@@ -13,6 +13,8 @@ Usage in Risa/Asir
 fep asir
 load("experiment-IKP_point-old-script.rr")$
 ```
+The log can be found at [../log/IA-64/experiment-IKP_point-old.log](../log/IA-64/experiment-IKP_point-old.log).
+
 ### Scripts for generating test sets
 
 Generated data files are located in [../data/](../data/)
