@@ -35,19 +35,19 @@
 
 ### Main files and functions
 
-#### IKP_Point.rr: An algorithm for Solving inverse kinematic problem (Steps 2--5)
+#### [IKP_Point.rr](./IKP_Point.rr): An algorithm for Solving inverse kinematic problem (Algorithm 1)
 
 * ikp_point(CGS, Param, Var, Ord, Coordinate): A solver for inverse kinematic problem
     * generate_realcgs(CGS, Param, Ord): Extract non-empty segments over the real number
-    * cgs_choose(CGS, Coordinate): Choose the Groenber basis in the corresponding segment for the given coordinate
+    * cgs_choose(CGS, Coordinate): (Algorithm 2) Choose the Groenber basis in the corresponding segment for the given coordinate
     * newmainqe(Set, Vari: Verification of the existence of a real root
     * varisolve(Set), main_varisolve(Poly, Kai): Solving the inverse kinematic equation
         * zeroset_subst(Set, Coordinate): A zero verification of the affine variety
         * nonzeroset_subst(Set, Coordinate): A nonzero verification of the affine variety
         * eigen_num(CPoly): Counting ((the number of positive eigenvalues) - (the number of negative eigenvalues))
-        * nonzeroideal_ikp(G, Var): Process for the case when the ideal is not zero dimensional
+        * nonzeroideal_ikp(G, Var): (Section 4.3) Process for the case when the ideal is not zero dimensional
 
-#### Segment.rr: An algorithm for eliminating segment(s) which does not have real affine varieties (Step 2)
+#### [Segment.rr](./Segment.rr): An algorithm for eliminating segment(s) which does not have real affine varieties (Step 2)
 
 * segment(ZeroSet, NonZeroSet, Param, Ord): Eliminate segment(s) which are not real affine varieties
     * first(ZeroSet, NonzeroSet, Var): Eliminate a segment that does not have a real affine variety by detecting parameters = 0 contained in the affine variety (in the case degree of the term is even)
@@ -119,11 +119,11 @@ $s\in[0,1]$.
 
 ### An implementation
 
-#### IKP_Trajectory.rr: An algorithm for path and trajectory planning
+#### [IKP_Trajectory.rr](./IKP_Trajectory.rr): An algorithm for path and trajectory planning
 * ikp_trajectory(CGS, Parm, Var, Ord, P0, Pf, S, T): main function for path and trajectory planning 
   * coodenate_subst(P0, Pf, S): Calculate current position of the end-effector $p_d$ from $p_0,p_f,s$ 
 
-#### MainQE: an implementation of the MainQE algorithm in the CGS-QE method
+#### [MainQE.rr](./MainQE.rr): an implementation of the MainQE algorithm in the CGS-QE method
 * mainqe(CGS, Var, Param): MainQE algorithm
 
 ## Data files
