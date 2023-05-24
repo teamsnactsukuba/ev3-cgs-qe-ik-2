@@ -5,16 +5,18 @@ This repository contains an implementation of an inverse kinematics solver with 
 
 M. Yoshizawa, A. Terui, M. Mikawa. <br />
 Inverse kinematics and path planning of manipulator using CGS-QE.
-preprint, to be made public.
+preprint. <br />
+https://doi.org/10.48550/arXiv.2305.12451
+
 
 ## Contents
 
 The contents of this repository are as follows:
 
-- src: Source code of the implementation
-    - data: data files of test data
-    - log: log files of the tests
-    - test: test scripts
+- [src](./src/): Source code of the implementation
+    - [data](./src/data/): data files of test data
+    - [log](./src/log/): log files of the tests
+    - [test](./src/test/): test scripts
 
 ## Prerequisites
 
@@ -25,7 +27,7 @@ For executing the implementation here, you need the following:
 - CGS: a program for computing comprehensive Groebner systems in a polynomial ring by Prof. Katsusuke Nabeshima: https://www.rs.tus.ac.jp/~nabeshima/softwares.html
 - X Window System server (for executing OpenXM)
 
-Path planning requires additional conditions
+Path planning requires additional conditions:
 
 - Wolfram Mathematica or Wolfram Engine (Version 13.1 has been tested):
-- Run the above software on Linux.
+- Running the above software on Linux.
