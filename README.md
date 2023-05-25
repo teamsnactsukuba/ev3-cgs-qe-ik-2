@@ -4,7 +4,7 @@ An inverse kinematics solver with path and trajectory planning based on the CGS-
 This repository contains an implementation of an inverse kinematics solver with path and trajectory planning based on the CGS-QE algorithm for an EV3 manipulator, described in the following paper:
 
 M. Yoshizawa, A. Terui, M. Mikawa. <br />
-Inverse kinematics and path planning of manipulator using CGS-QE.
+Inverse kinematics and path planning of manipulator using real quantifier elimination based on Comprehensive Gröbner Systems,
 preprint. <br />
 https://doi.org/10.48550/arXiv.2305.12451
 
