@@ -51,3 +51,15 @@ fep asir
 load("test_IKP_trajectory-real.rr")$
 ```
 A sample log can be found at [../log/IA-64/test_IKP_trajectory-real.log](../log/IA-64/test_IKP_trajectory-real.log).
+
+## A test for trajectory planning with verification using CGS-QE method (Section 5.2)
+
+- test_IKP_trajectory_qe-4.rr: verification of the trajectory for [$F_4$](../README.md#definitions)
+
+Usage in Risa/Asir
+```
+fep asir
+load("test_IKP_trajectory_qe-4.rr")$
+```
+
+A sample log can be found at [../log/IA-64/test_IKP_trajectory_qe-4.log](../log/IA-64/test_IKP_trajectory_qe-4.log).
