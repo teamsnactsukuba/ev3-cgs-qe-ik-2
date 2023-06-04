@@ -7,16 +7,18 @@ load("equation-4.rr")$
 load("Test.rr")$
 load("IKP_Trajectory_QE.rr")$
 load("Segment.rr")$
+ctrl("echo", 1)$
 ctrl("cputime", 1)$
 
 CGS = bload("F4_CGS.dat")$
-CGSSize = length(CGS)$
+CGSSize = length(CGS);
 
 RealCGS = generate_realcgs(CGS, Param, Ord)$
-RealCGSSize = length(RealCGS)$
+RealCGSSize = length(RealCGS);
 
 mainqe(RealCGS, Var, Param);
 
 ctrl("cputime", 0)$
+ctrl("echo", 0)$
 
 end$
