@@ -28,7 +28,7 @@ def calculation_error_average(ErrorSet){
 
 CGS = bload("../F1_CGS.dat")$
 // CoordinateSet = bload("../Coordinate10.dat")$
-load("Old-Coordinate-01.rr")$
+load("../data/Old-Coordinate-01.rr")$
 ErrorSet = [];
 
 for(I = 0; I < 100; I++){
