@@ -209,6 +209,8 @@ def nonzeroset_subst(Set, Coord){
 }
 
 //  Counting ((the number of positive eigenvalues) - (the number of negative eigenvalues))
+
+/*
 def eigen_num(CPoly){
   Count = 0;
   Kai = pari(roots, CPoly);
@@ -225,6 +227,39 @@ def eigen_num(CPoly){
     }
   }
   return Count;
+}
+*/
+
+def eigen_num(F) {
+  L = generate_spsm(F);
+  Lp = L[0];
+  Lm = generate_signm(L[0],L[1]);
+  return count_sign2(Lp) - count_sign2(Lm);
+}
+
+def count_sign2(L) {
+  C = 0;
+  S = L[0];
+  if (S > 0) {
+    S = 1;
+  } else {
+    S = -1;
+  }
+  for (I = 1; I < length(L); I++) {
+    S2 = L[I];
+    if (S2 > 0) {
+      if (S < 0) {
+        C++;
+        S = 1;
+      } 
+    } else if (S2 < 0) {
+      if (S > 0) {
+        C++;
+        S = -1;
+      }
+    }
+  }
+  return C;
 }
 
 end$
