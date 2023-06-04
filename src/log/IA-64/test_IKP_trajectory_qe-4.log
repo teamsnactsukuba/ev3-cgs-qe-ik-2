@@ -15,11 +15,25 @@ Module mathematica (to communicate with Mathematica) Version 19991113.
 Starting ox_math.
 ox_math: Portions copyright 2000 Wolfram Research, Inc. 
 See OpenXM/Copyright/Copyright.mathlink for details.
-2e-06sec(3.099e-06sec)
-0.003641sec(0.003641sec)
+
+1e-06sec(9.537e-07sec)
+ctrl("cputime", 1)$
+
+0.003655sec(0.003655sec)
+CGS = bload("F4_CGS.dat")$
+CGSSize = length(CGS);6
 2e-06sec(2.146e-06sec)
-0.009469sec(0.009469sec)
-1e-06sec(1.192e-06sec)
-[[[(0)<(s)<(0.756424) , (0.756424)<(s)<(0.993797) , (0.993797)<(s)<(1)],[[s , 0.756424] , [s , 0.993797]]]]
-1.121sec(2.42sec)
-[2262] 
+
+
+0.009344sec(0.009344sec)
+RealCGS = generate_realcgs(CGS, Param, Ord)$
+RealCGSSize = length(RealCGS);1
+1e-06sec(9.537e-07sec)
+
+
+mainqe(RealCGS, Var, Param);[[[(0)<(s)<(0.756424) , (0.756424)<(s)<(0.993797) , (0.993797)<(s)<(1)],[[s , 0.756424] , [s , 0.993797]]]]
+1.107sec(2.407sec)
+
+
+ctrl("cputime", 0)$
+ctrl("echo", 0)$[2264] 
