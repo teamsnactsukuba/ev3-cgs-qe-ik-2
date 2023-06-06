@@ -100,7 +100,7 @@ def newmainqe(Set, Var){
     }else{
       IdealCheck = zerodimideal_check(G, Var); 
       if(IdealCheck == 1){
-        Kai = generate_kai(G, 1, Var); // Computing the characteristic polynomial
+        Kai = generate_characteristic(G, 1, Var); // Computing the characteristic polynomial
         Count = eigen_num(Kai); //  Counting ((the number of positive eigenvalues) - (the number of negative eigenvalues))
         if(Count > 0){
           return G;
