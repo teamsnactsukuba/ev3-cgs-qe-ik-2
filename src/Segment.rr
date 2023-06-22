@@ -13,7 +13,7 @@ def segment(ZeroSet, NonZeroSet, Param, Ord){
     if(Third != []){
       Second = second(ZeroSet);
       if(Second != []){
-        First = first(ZeroSet, NonZeroSet, Param);
+        First = segment_first(ZeroSet, NonZeroSet, Param);
         if(First != []){
             return ZeroSet;
         }
@@ -26,7 +26,7 @@ def segment(ZeroSet, NonZeroSet, Param, Ord){
 // Eliminate a segment which does not have a real affine variety
 // by detecting parameters = 0 contained in the affine variety
 // (in the case degree of the term is even)
-def first(ZeroSet, NonzeroSet, Var){
+def segment_first(ZeroSet, NonzeroSet, Var){
   Size = length(ZeroSet);
   Even = even_degree_poly(ZeroSet, Var); // Extract polynomials consisting of terms of even degrees from the Set
   if(Even == []) {
