@@ -5,15 +5,15 @@
 
 load("IKP_Point.rr")$
 
-def ikp_trajectory(CGS, Para, Vari, Jun, P0, Pf, S, T){
-  VariSet = [];
+def ikp_trajectory(CGS, Param, Var, Jun, P0, Pf, S, T){
+  VarSet = [];
   for(I = 0; I < T + 1; I++){
     SS = subst(S, t, I);
     Coordinate = coodenate_subst(P0, Pf, SS);
-    P = ikp_point(CGS, Para, Vari, Jun, Coordinate);
-    VariSet = append(VariSet, [P]);
+    P = ikp_point(CGS, Param, Var, Jun, Coordinate);
+    VarSet = append(VarSet, [P]);
   }
-  return VariSet;
+  return VarSet;
 }
 
 // Calculate current position of the end-effector $p_d$ from $p_0,p_f,s$ 
