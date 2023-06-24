@@ -23,3 +23,5 @@ def coodenate_subst(P0, Pf, S){
   Z = subst(z0*(1-s)+zf*s, z0, P0[2], zf, Pf[2], s, S);
   return [X, Y, Z];
 }
+
+end$
